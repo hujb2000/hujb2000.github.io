@@ -1,0 +1,11 @@
+# Site settings
+title: HUJIABAO
+email: hujb2000@163.com
+description: > # This is my person home page.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://hujb2000.git.io" # the base hostname & protocol for your site
+twitter_username: allen_hujiabao
+github_username:  hujb2000
+
+# Build settings
+markdown: kramdown
