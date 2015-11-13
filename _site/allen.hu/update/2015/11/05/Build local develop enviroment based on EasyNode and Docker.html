@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Build local develop environment based on EasyNode and Docker</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="canonical" href="http://hujb2000.git.io/allen.hu/update/2015/11/05/Build%20local%20develop%20enviroment%20based%20on%20EasyNode%20and%20Docker.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">HUJIABAO</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Build local develop environment based on EasyNode and Docker</h1>
+    <p class="post-meta">Nov 5, 2015</p>
+  </header>
+
+  <article class="post-content">
+    <h1 id="install-docker-engine-">Install Docker Engine :</h1>
+
+<p><a href="https://docs.docker.com/engine/installation/mac/">Installation on Max OS X</a></p>
+
+<p><a href="https://docs.docker.com/engine/installation/debian">Installation on Debian</a></p>
+
+<h1 id="install-docker-compose-">Install Docker Compose :</h1>
+
+<p><a href="https://github.com/docker/compose/releases">Installation on Debian</a></p>
+
+<pre><code>curl -L https://github.com/docker/compose/releases/download/1.5.0/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+</code></pre>
+
+<h1 id="delopy-a-registry-server">Delopy a registry server</h1>
+
+<p>create certification：</p>
+
+<pre><code>mkdir -p certs &amp;&amp; openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key -x509 -days 10240 -out certs/domain.crt
+</code></pre>
+
+<p>start yourself registry server:</p>
+
+<pre><code>  docker run -d -p 5000:5000 --restart=always --name registry \
+    -v /home/hjb/registry:/var/lib/registry \
+    -v /home/hjb/registry_test/certs:/certs \
+    -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt \
+    -e REGISTRY_HTTP_TLS_KEY=/cert/domain.key \
+     registry@2.1.1
+</code></pre>
+
+<p>start yourself registry server only http:</p>
+
+<pre><code>  docker run -d -p 5000:5000 --restart=always --name registry \
+    -v /home/hjb/registry:/var/lib/registry \
+     registry@2.1.1
+</code></pre>
+
+<p>In the file /etc/init.d/docker add ‘–insecure-registry domain:port’ to DOCKER_OPTS env.</p>
+
+<h1 id="create-multi-container-applications">Create multi-container applications</h1>
+
+<p>You can use a Compose file to configure yur applications’s service, Then, using a single command to create and start all the services from your configuration.</p>
+
+<p><a href="https://docs.docker.com/compose/">Overview Docker Compose</a></p>
+
+<p><a href="https://docs.docker.com/compose/reference/docker-compose/">docker-compose Command</a></p>
+
+<p><a href="https://docs.docker.com/compose/reference/overview/#compose-project-name">compose Enviroment variable</a></p>
+
+<p><a href="https://docs.docker.com/compose/compose-file/">Compose file reference</a></p>
+
+<p><a href="https://docs.docker.com/compose/extends/#multiple-compose-files">multi compose</a></p>
+
+<h1 id="using-compose-is-basically-a-three-step-process">Using Compose is basically a three-step process.</h1>
+
+<ol>
+  <li>
+    <p>Define your app’s environment with a Dockerfile so it can be reproduced anywhere.</p>
+
+    <pre><code>FROM node:latest.babel
+MAINTAINER hujb
+
+COPY . /usr/src/app
+
+WORKDIR /usr/src/app
+RUN npm install
+
+CMD ["./start.sh"]
+</code></pre>
+  </li>
+  <li>
+    <p>Define the services that make up your app in docker-compose.yml so they can be run together in an isolated environment. docker-compose build the isolated enviromnet.</p>
+
+    <ul>
+      <li>
+        <p>Each service defined in docker-compose.yml must specify exactly one of image or build .</p>
+      </li>
+      <li>
+        <p>log_driver: “json-file”, Only the json-file driver makes the logs availabe directly from docker-compose logs, Using any other(syslog,none)will not
+print any logs</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Lastly  run docker-compose up and Compose will start an run your entire app.</p>
+  </li>
+</ol>
+
+<p>Dockerfile’s Rules:</p>
+
+<ol>
+  <li>
+    <p>Because Docker container names must be unique, you cannot scale a service beyond 1 container if you have specified a custom name. Attempting to do so results in an error.</p>
+  </li>
+  <li>
+    <p>One Process Per Container</p>
+  </li>
+  <li>
+    <p>Entrypoint must supend</p>
+  </li>
+  <li>
+    <p>Dockerfile requires strict separation of ENV from the throughtout environment of the image. ENV must not write died in the Dockerfile,
+Example: such clause: ‘EXPOSE 8888; ENV NPM_DEBUG_LEVEL info’  is not permitted to write in the Dockerfile.</p>
+  </li>
+  <li>
+    <p>Log or Data directory must been mounted by the extra host directory to container.</p>
+  </li>
+  <li>
+    <p>Config must injected by ENV but not local config file</p>
+  </li>
+  <li>
+    <p>Can’t work to the directory after it just mounted in the Dockerfile</p>
+  </li>
+</ol>
+
+<h1 id="enter-container">Enter Container</h1>
+
+<p>Install nsenter, which include in the util-linux issue version.</p>
+
+<pre><code>cd /tmp
+curl https://www.kernel.org/pub/linux/utils/util-linux/v2.24/util-linux-2.24.tar.gz | tar -zxf-
+cd util-linux-2.24
+./configure --without-ncurses
+make nsenter
+cp nsenter /usr/local/bin
+</code></pre>
+
+<p>run docker-enter <container> enter into the container.</container></p>
+
+<p>Compile nsenter failed on Mac Ｘ, but now recommend use Docker exec to enter a Docker container, example:</p>
+
+<pre><code>docker exec -it CONTAINER_NAME /bin/bash
+</code></pre>
+
+<h1 id="a-use-case">A Use case</h1>
+
+<p>step 1:</p>
+
+<p>Define a base image to Node.JS program language, write a Dockerfile:latest.label such as:</p>
+
+<pre><code>    FROM node:latest
+
+    RUN npm install -g cnpm --registry=https://r.cnpmjs.org
+
+    #RUN npm config set strict-ssl false
+    #RUN npm install -g cnpm --registry=http://r.cnpmjs.org
+    #RUN npm install microtime --registry=http://r.cnpmjs.org --disturl=http://dist.cnpmjs.org
+
+
+    RUN cnpm install -g  pomelo
+    RUN cnpm install babel@5.8.29 -g
+
+    RUN mkdir -p /usr/src/app
+</code></pre>
+
+<p><img src="/images/NodeImageHierarchicalTree.png" alt="Node base image hierarchical tree" /></p>
+
+<p>step 2:</p>
+
+<p>Tag for the base image, such as:</p>
+
+<pre><code>    docker  build -t repository/tag -f /path/to/a/Dockerfile .
+
+    docker build -t node:latest.babel -f Dockerfile:latest.babel .
+</code></pre>
+
+<p>step 3:</p>
+
+<p>The development stage:</p>
+
+<pre><code>* clone the easynode source code, git clone https://github.com/hujb2000/easynode.git
+
+* coding suite for the following directory structure( you can reference the netease directory)
+
+        bin\             start.sh - run the app   stop.sh - stop the app
+        config\          the build-in configurations needs
+        src\             source code
+        test\            test code
+        README.md
+
+* .dockerignore,  ingnore the files or directories to COPY into the images.
+
+* docker-compose.xml
+
+        app:
+          dockerfile: "Dockerfile${STAGE}"
+          build: .
+          volumes:
+            - .:/usr/src/app/:rw
+          ports:
+            - 6005:6005
+          dns:
+            - 8.8.8.8
+          env_file:
+            - ./common.env
+          environment:
+            - ENV=aa
+          log_driver: "json-file"
+          restart: always
+
+* build.sh,    build the images for the project
+
+    PRJ='projectname' STAGE='DEVELOPMENT' sh build
+    STAGE' value are recommended the following fours: DEVELOPMENT|TEST|PRERELEASE|PRODUCTION
+
+* Define the Dockerfile named DockerfileDEVELOPMENT:
+
+    FROM node:latest.babel
+
+    WORKDIR /usr/src/app/${projectname}/bin
+
+    CMD ["./start.sh"]
+
+* generate development image, The image repository's name will be ${PRJ}${STAGE}_$(servicename), servicename is defined int the docker-compose.yml
+
+    PRJ='projectname' STAGE='DEVELOPMENT' sh build.sh
+
+
+* DockerfilePRERELEASE, DockerfilePRODUCTION files' content, such as:
+
+      FROM node:latest.babel
+
+      MAINTAINER hujb
+
+      COPY . /usr/src/app
+
+
+      WORKDIR /usr/src/app
+      RUN npm install
+
+      WORKDIR /usr/src/app/${project}/bin
+
+      CMD ["./start.sh"]
+</code></pre>
+
+<p><a href="https://github.com/hujb2000/docker_op">Dockerfile_node*</a></p>
+
+<p><a href="https://docs.docker.com/engine/reference/run/#volume-shared-filesystems">Docker Volume shared filesystems</a></p>
+
+<ol>
+  <li>
+    <p>Environment replacement
+ The ${variable_name}
+ The ${variable:-word} indicates that if variable is set then the result will be that value, if variable is not set when word will be the result
+ The ${varivble:+word} indicates that if variable is set the word will be the result ,otherwise the result is the empty string.</p>
+  </li>
+  <li>
+    <p>Dockerfile Best Practices</p>
+  </li>
+</ol>
+
+<p><a href="https://docs.docker.com/engine/articles/dockerfile_best-practices/">Dockerfile Best Practices</a></p>
+
+<p>The environment variables set using ENV will persist when a container is run from the resulting image. You can view the values using docker inspect, and change them using docker run –env <key>=<value>.</value></key></p>
+
+<p>ADD obeys the following rules:</p>
+
+<p>The <src> path must be inside the context of the build; you cannot ADD ../something /something, because the first step of a docker build is to send the context directory (and subdirectories) to the docker daemon.</src></p>
+
+<p>If <src> is a URL and <dest> does not end with a trailing slash, then a file is downloaded from the URL and copied to <dest>.</dest></dest></src></p>
+
+<p>If <src> is a URL and <dest> does end with a trailing slash, then the filename is inferred from the URL and the file is downloaded to <dest>/<filename>. For instance, ADD http://example.com/foobar / would create the file /foobar. The URL must have a nontrivial path so that an appropriate filename can be discovered in this case (http://example.com will not work).</filename></dest></dest></src></p>
+
+<p>If <src> is a directory, the entire contents of the directory are copied, including filesystem metadata.</src></p>
+
+<p>You can override the ENTRYPOINT instruction using the docker run –entrypoint flag.</p>
+
+<p>The ARG instruction defines a variable that users can pass at build-time to the builder with the docker build command using the –build-arg <varname>=<value> flag. If a user specifies a build argument that was not defined in the Dockerfile, the build outputs an error.</value></varname></p>
+
+<p>Note: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc.</p>
+
+<p>export const redis = {
+    “sentinels”: [
+        {“host”: “121.40.202.254”, “port”: 26380},
+        {“host”: “120.26.112.199”, “port”: 26380},
+        {“host”: “120.26.112.207”, “port”: 26380}
+    ],
+    name: ‘scard-t’,
+    password: ‘zhpwd’,
+    db: 5
+}</p>
+
+<p>export const mongo = {
+    “uri”: “mongodb://121.40.202.254:50000,120.26.112.199:50000,120.26.112.207:50000/scard_pro”,
+    “options”: {
+        “db”: {
+            “w”: 1,
+            “wtimeout”: 15000,
+            “readPreference”: “secondaryPreferred”,
+            “numberOfRetries”: “15”
+        },
+        “user”:”scard_pro”,
+        “pass”:”scard_pro”,
+        “mongos”: true,
+        “server”: {
+            “poolSize”: 10,
+            “socketOptions”: { “keepAlive”: 1 }
+        }
+    }
+};</p>
+
+<p>var MySQLCluster = require( “ee-mysql-cluster” );</p>
+
+<p>var cluster = new MySQLCluster( [
+      timeout: 5000
+    , procedures: [ “createTickets”, “createLogs” ]
+    , functions: [ “deleteLogs” ]
+] );</p>
+
+<p>// master, allow 50 concurrent connections
+var node = cluster.addNode( {
+      host: “”
+    , port: 0
+    , user: “”
+    , pass: “”
+    , maxConnections: 50
+} );</p>
+
+<p>// slave, allow 2k concurrent connections
+var node2 = cluster.addNode( {
+      host: “”
+    , port: 0
+    , user: “”
+    , pass: “”
+    , readonly: true
+    , maxConnections: 2000
+} );</p>
+
+<p>ERROR: Cannot start container 62d85673dba5e16bf9ef51c4ffe87b6801b254fe8d1feb10230d4839379ea10b: Cannot link to a non running container: /stkappserverapi_mongo_1 AS /stkappserverapi_app_1/mongo</p>
+
+<p>links:
+    - mongo
+    - redis
+    改成mong2, redis2,就ok了</p>
+
+<ol>
+  <li>Node5.0.0 通运行babel吗?
+cnpm install -g babel-cli 在新的Node5.0.0的版本下不能运行,iojs-3.3.0下运行OK
+Docker : node and iojs two officer repostries</li>
+</ol>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">HUJIABAO</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>HUJIABAO</li>
+          <li><a href="mailto:hujb2000@163.com">hujb2000@163.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/hujb2000">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">hujb2000</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/allen_hujiabao">
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">allen_hujiabao</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text"></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
