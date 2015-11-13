@@ -29,6 +29,7 @@ categories: allen.hu update
 
    * 产物：典型Web应用架构图，各部件实例程序
 
+
 ## 软件产品测试阶段
 
 ### 制作镜像

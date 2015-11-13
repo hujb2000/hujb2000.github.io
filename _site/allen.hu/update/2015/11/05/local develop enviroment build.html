@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>HUJIABAO</title>
+    <title>Build local develop environment based on Docker</title>
     <meta name="description" content="">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://hujb2000.git.io/">
+    <link rel="canonical" href="http://hujb2000.git.io/allen.hu/update/2015/11/05/local%20develop%20enviroment%20build.html">
 </head>
 
 
@@ -51,38 +51,123 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Build local develop environment based on Docker</h1>
+    <p class="post-meta">Nov 5, 2015</p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Nov 6, 2015</span>
+  <article class="post-content">
+    <h1 id="install-docker-engine-">Install Docker Engine :</h1>
 
-        <h2>
-          <a class="post-link" href="/allen.hu/update/2015/11/06/Sharing%20Books.html">Sharing Books</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Nov 6, 2015</span>
+<p><a href="https://docs.docker.com/engine/installation/mac/">Installation on Max OS X</a></p>
 
-        <h2>
-          <a class="post-link" href="/allen.hu/update/2015/11/06/A%20Cloud%20Native%20App,%20Development%20Methodologl.html">A Cloud Native App, Development Methodolog</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Nov 5, 2015</span>
+<p><a href="https://docs.docker.com/engine/installation/debian">Installation on Debian</a></p>
 
-        <h2>
-          <a class="post-link" href="/allen.hu/update/2015/11/05/local%20develop%20enviroment%20build.html">Build local develop environment based on Docker</a>
-        </h2>
-      </li>
-    
-  </ul>
+<h1 id="install-docker-compose-">Install Docker Compose :</h1>
 
+<p><a href="https://github.com/docker/compose/releases">Installation on Debian</a></p>
+
+<pre><code>curl -L https://github.com/docker/compose/releases/download/1.5.0/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+</code></pre>
+
+<h1 id="delopy-a-registry-server">Delopy a registry server</h1>
+
+<p>create certification：</p>
+
+<pre><code>mkdir -p certs &amp;&amp; openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key -x509 -days 10240 -out certs/domain.crt
+</code></pre>
+
+<p>start yourself registry server:</p>
+
+<pre><code>docker run -d -p 5000:5000 --restart=always --name registry \
+    -v /home/hjb/registry:/var/lib/registry \
+    -v /home/hjb/registry_test/certs:/certs \
+    -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt \
+    -e REGISTRY_HTTP_TLS_KEY=/cert/domain.key \
+     registry@2.1.1
+</code></pre>
+
+<p>start yourself registry server only http:</p>
+
+ 	docker run -d -p 5000:5000 –restart=always –name registry \
+<pre><code>    -v /home/hjb/registry:/var/lib/registry \
+     registry@2.1.1
+</code></pre>
+
+<p>In the file /etc/init.d/docker add ‘–insecure-registry domain:port’ to DOCKER_OPTS env.</p>
+
+<h1 id="create-multi-container-applications">Create multi-container applications</h1>
+
+<p>You can use a Compose file to configure yur applications’s service, Then, using a single command to create and start all the services from your configuration.</p>
+
+<p>Using Compose is basically a three-step process.</p>
+
+<ol>
+  <li>
+    <p>Define your app’s environment with a Dockerfile so it can be reproduced anywhere.</p>
+
+    <pre><code>FROM mhart/alpine-node
+# FROM mhart/alpine-node:base
+# FROM mhart/alpine-node:base-0.10
+
+WORKDIR /src
+ADD . .
+
+# If you have native dependencies, you'll need extra tools
+RUN apk add --update make gcc g++ python
+
+# If you need npm, don't use a base tag
+RUN npm install
+
+# If you had native dependencies you can now remove build tools
+RUN apk del make gcc g++ python &amp;&amp; \
+  rm -rf /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp
+
+EXPOSE 3000
+CMD ["npm", "start"]
+</code></pre>
+  </li>
+  <li>
+    <p>Define the services that make up your app in docker-compose.yml so they can be run together in an isolated environment. docker-compose build the isolated enviromnet.</p>
+  </li>
+  <li>
+    <p>Lastly  run docker-compose up and Compose will start an run your entire app.</p>
+  </li>
+</ol>
+
+<p><a href="https://docs.docker.com/compose/">Overview Docker Compose</a></p>
+
+<h1 id="enter-container">Enter Container</h1>
+
+<p>Install nsenter, which include in the util-linux issue version.</p>
+
+<pre><code>cd /tmp
+curl https://www.kernel.org/pub/linux/utils/util-linux/v2.24/util-linux-2.24.tar.gz \
+	| tar -zxf-
+cd util-linux-2.24
+./configure --without-ncurses
+make nsenter
+cp nsenter /usr/local/bin
+</code></pre>
+
+<p>run docker-enter <container> enter into the container.</container></p>
+
+<p>On Mac, compile nsenter failed, but now recommend use Docker exec to enter a Docker container, example:</p>
+
+<pre><code>docker exec -it CONTAINER_NAME /bin/bash
+</code></pre>
+
+<h1 id="dockerfile-rules">Dockerfile rules</h1>
+
+<ol>
+  <li>Dockerfile requires strict separation of ENV from the throughtout environment of the image.
+Example: such clause: ‘EXPOSE 8888; ENV NPM_DEBUG_LEVEL info’  is not permitted to write in the Dockerfile.</li>
+</ol>
+
+  </article>
 
 </div>
 
