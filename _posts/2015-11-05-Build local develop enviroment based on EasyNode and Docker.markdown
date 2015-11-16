@@ -297,7 +297,7 @@ Issue phase:
 
 * run program
 
-docker run -d -p 6005:6005 -v $PWD:/usr/src/app/logs --env MSQL_CONFIG_URL='http://w.6go.tv/config.json' 218.205.113.98:5000/uproduction_app
+        docker run -d -p 6005:6005 -v $PWD:/usr/src/app/logs --env MSQL_CONFIG_URL='http://w.6go.tv/config.json' 218.205.113.98:5000/uproduction_app
 
 
 
