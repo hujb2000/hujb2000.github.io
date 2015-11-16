@@ -73,6 +73,22 @@
 chmod +x /usr/local/bin/docker-compose
 </code></pre>
 
+<h1 id="install-docker-machine">Install Docker Machine</h1>
+
+<p><a href="http://docs.docker.com/engine/installation/mac/#from-your-shell">Install Docker Machine</a></p>
+
+<p>docker-machine create –driver virtualbox default</p>
+
+<p>docker-machine env default</p>
+
+<p>docker port container’name</p>
+
+<p>docker-machine ip default</p>
+
+<p>eval “$(docker-machine env default)”</p>
+
+<p>Note: Mac X is different to Linux which physical machine is both the localhost and the Docker host.</p>
+
 <h1 id="delopy-a-registry-server">Delopy a registry server</h1>
 
 <p>create certification：</p>
@@ -97,7 +113,7 @@ chmod +x /usr/local/bin/docker-compose
      registry@2.1.1
 </code></pre>
 
-<p>In the file /etc/init.d/docker add ‘–insecure-registry domain:port’ to DOCKER_OPTS env.</p>
+<p>In the file /etc/init.d/docker add ‘–insecure-registry domain:port’ to DOCKER_OPTS env or EXTRA_ARGS .</p>
 
 <h1 id="create-multi-container-applications">Create multi-container applications</h1>
 
@@ -173,6 +189,9 @@ Example: such clause: ‘EXPOSE 8888; ENV NPM_DEBUG_LEVEL info’  is not permit
   <li>
     <p>Can’t work to the directory after it just mounted in the Dockerfile</p>
   </li>
+  <li>
+    <p>Any tiny modify must change the image’s version</p>
+  </li>
 </ol>
 
 <h1 id="enter-container">Enter Container</h1>
@@ -211,8 +230,6 @@ cp nsenter /usr/local/bin
 
     RUN cnpm install -g  pomelo
     RUN cnpm install babel@5.8.29 -g
-
-    RUN mkdir -p /usr/src/app
 </code></pre>
 
 <p><img src="/images/NodeImageHierarchicalTree.png" alt="Node base image hierarchical tree" /></p>
@@ -223,79 +240,156 @@ cp nsenter /usr/local/bin
 
 <pre><code>    docker  build -t repository/tag -f /path/to/a/Dockerfile .
 
-    docker build -t node:latest.babel -f Dockerfile:latest.babel .
+    docker build -t node:5.0.0.babel -f Dockerfile:5.0.0.babel .
 </code></pre>
 
 <p>step 3:</p>
 
 <p>The development stage:</p>
 
-<pre><code>* clone the easynode source code, git clone https://github.com/hujb2000/easynode.git
+<ul>
+  <li>
+    <p>clone the easynode source code, git clone <a href="https://github.com/hujb2000/easynode.git">easynode</a></p>
+  </li>
+  <li>
+    <p>coding suite for the following directory structure( you can reference the netease directory)</p>
 
-* coding suite for the following directory structure( you can reference the netease directory)
-
-        bin\             start.sh - run the app   stop.sh - stop the app
-        config\          the build-in configurations needs
-        src\             source code
-        test\            test code
-        README.md
-
-* .dockerignore,  ingnore the files or directories to COPY into the images.
-
-* docker-compose.xml
-
-        app:
-          dockerfile: "Dockerfile${STAGE}"
-          build: .
-          volumes:
-            - .:/usr/src/app/:rw
-          ports:
-            - 6005:6005
-          dns:
-            - 8.8.8.8
-          env_file:
-            - ./common.env
-          environment:
-            - ENV=aa
-          log_driver: "json-file"
-          restart: always
-
-* build.sh,    build the images for the project
-
-    PRJ='projectname' STAGE='DEVELOPMENT' sh build
-    STAGE' value are recommended the following fours: DEVELOPMENT|TEST|PRERELEASE|PRODUCTION
-
-* Define the Dockerfile named DockerfileDEVELOPMENT:
-
-    FROM node:latest.babel
-
-    WORKDIR /usr/src/app/${projectname}/bin
-
-    CMD ["./start.sh"]
-
-* generate development image, The image repository's name will be ${PRJ}${STAGE}_$(servicename), servicename is defined int the docker-compose.yml
-
-    PRJ='projectname' STAGE='DEVELOPMENT' sh build.sh
-
-
-* DockerfilePRERELEASE, DockerfilePRODUCTION files' content, such as:
-
-      FROM node:latest.babel
-
-      MAINTAINER hujb
-
-      COPY . /usr/src/app
-
-
-      WORKDIR /usr/src/app
-      RUN npm install
-
-      WORKDIR /usr/src/app/${project}/bin
-
-      CMD ["./start.sh"]
+    <pre><code>  bin\             start.sh - run the app   stop.sh - stop the app
+  config\          the build-in configurations needs
+  src\             source code
+  test\            test code
+  README.md
 </code></pre>
+  </li>
+  <li>
+    <p>.dockerignore,  ingnore the files or directories to COPY into the images.</p>
+  </li>
+  <li>
+    <p>docker-compose.xml</p>
 
-<p><a href="https://github.com/hujb2000/docker_op">Dockerfile_node*</a></p>
+    <pre><code>  app:
+    dockerfile: "Dockerfile${STAGE}"
+    build: .
+    volumes:
+      - .:/usr/src/app/:rw
+    ports:
+      - 6005:6005
+    dns:
+      - 8.8.8.8
+    env_file:
+      - ./common.env
+    environment:
+      - ENV=aa
+    log_driver: "json-file"
+    restart: always
+</code></pre>
+  </li>
+  <li>
+    <p>create build.sh,   build the images for the project</p>
+
+    <p>PRJ=’projectname’ STAGE=’DEVELOPMENT’ sh build
+  STAGE’ value are recommended the following fours: DEVELOPMENT|TEST|PRERELEASE|PRODUCTION</p>
+  </li>
+  <li>
+    <p>Define the Dockerfile named DockerfileDEVELOPMENT:</p>
+
+    <p>FROM node:5.0.0.babel</p>
+
+    <p>CMD [”./start.sh”]</p>
+  </li>
+  <li>
+    <p>generate development image, The image repository’s name will be ${PRJ}${STAGE}_$(servicename), servicename is defined int the docker-compose.yml</p>
+
+    <p>PRJ=’projectname’ STAGE=’DEVELOPMENT’ sh build.sh</p>
+  </li>
+  <li>
+    <p>RUN program</p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>docker run -ti</td>
+          <td>-d -p 6005:6005 -v $PWD:/usr/src/app –workdir=/usr/src/app/netease/bin –env MSQL_CONFIG_URL=’http://w.6go.tv/config.json’ projectnamedevelopment_app</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p>Mac X, Nat forwarding</p>
+
+    <p>docker-machine ip default, 192.168.99.100</p>
+
+    <p>http://192.168.99.100:6005/</p>
+
+    <p>Login into the default VirtualBox VM, use this command ‘ifconfig eth0’, look for the ip 10.0.2.15, then fill the port forwarding form</p>
+
+    <p><img src="/images/vb_nat.png" alt="port forwarding form" /></p>
+
+    <p>Now use the Mac X local ip to open the page http://10.0.0.3:6005, show normal. that’s ok.</p>
+  </li>
+</ul>
+
+<p>step 4.</p>
+
+<p>Test phase:</p>
+
+<p>All the processes are the same as development phase exception for the $PWD and MYSQL_CONFIG_URL env variant.</p>
+
+<p>step 5.</p>
+
+<p>Issue phase:</p>
+
+<ul>
+  <li>
+    <p>Define the Dockerfile named DockerfilePRODUCTION;</p>
+
+    <pre><code>  FROM node:5.0.0.babel
+
+  MAINTAINER hujb
+
+  RUN mkdir -p /usr/src/app
+
+  COPY . /usr/src/app
+
+  # run shell script with params
+  #RUN /usr/src/app/install.sh
+
+
+  WORKDIR /usr/src/app
+  RUN npm install
+
+  WORKDIR /usr/src/app/netease/bin
+
+  ENTRYPOINT ["./start.sh"]
+</code></pre>
+  </li>
+  <li>
+    <p>generate development image, The image repository’s name will be ${PRJ}${STAGE}_$(servicename), servicename is defined int the docker-compose.yml</p>
+
+    <pre><code>PRJ='projectname' STAGE='PRODUCTION' sh build.sh
+</code></pre>
+  </li>
+  <li>
+    <p>tag</p>
+
+    <p>docker tag ${PRJ}${STAGE}<em>$(servicename) registry.hz.netease.com/${PRJ}${STAGE}</em>$(servicename):version</p>
+  </li>
+  <li>
+    <p>push image</p>
+
+    <p>docker push registry.hz.netease.com/${PRJ}${STAGE}_$(servicename):version</p>
+  </li>
+  <li>
+    <p>pull image</p>
+
+    <p>docker pull registry.hz.netease.com/${PRJ}${STAGE}_$(servicename):vlogsersion</p>
+  </li>
+  <li>
+    <p>run program</p>
+  </li>
+</ul>
+
+<p>docker run -d -p 6005:6005 -v $PWD:/usr/src/app/logs –env MSQL_CONFIG_URL=’http://w.6go.tv/config.json’ 218.205.113.98:5000/uproduction_app</p>
 
 <p><a href="https://docs.docker.com/engine/reference/run/#volume-shared-filesystems">Docker Volume shared filesystems</a></p>
 
@@ -400,6 +494,9 @@ var node2 = cluster.addNode( {
 cnpm install -g babel-cli 在新的Node5.0.0的版本下不能运行,iojs-3.3.0下运行OK
 Docker : node and iojs two officer repostries</li>
 </ol>
+
+<p>Less is More
+Slow is Fast</p>
 
   </article>
 

@@ -18,6 +18,26 @@ categories: allen.hu update
 	curl -L https://github.com/docker/compose/releases/download/1.5.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 	chmod +x /usr/local/bin/docker-compose
 
+# Install Docker Machine
+
+[Install Docker Machine](http://docs.docker.com/engine/installation/mac/#from-your-shell)
+
+docker-machine create --driver virtualbox default
+
+docker-machine env default
+
+docker port container'name
+
+docker-machine ip default
+
+
+eval "$(docker-machine env default)"
+
+
+
+Note: Mac X is different to Linux which physical machine is both the localhost and the Docker host.
+
+
 # Delopy a registry server
 
 create certification：
@@ -39,7 +59,7 @@ start yourself registry server only http:
         -v /home/hjb/registry:/var/lib/registry \
          registry@2.1.1
 
-In the file /etc/init.d/docker add '--insecure-registry domain:port' to DOCKER_OPTS env.
+In the file /etc/init.d/docker add '--insecure-registry domain:port' to DOCKER_OPTS env or EXTRA_ARGS .
 
 # Create multi-container applications
 
@@ -97,6 +117,7 @@ Dockerfile's Rules:
 
 7. Can't work to the directory after it just mounted in the Dockerfile
 
+8. Any tiny modify must change the image's version
 
 
 # Enter Container
@@ -147,184 +168,136 @@ Tag for the base image, such as:
 
         docker  build -t repository/tag -f /path/to/a/Dockerfile .
 
-        docker build -t node:latest.babel -f Dockerfile:latest.babel .
+        docker build -t node:5.0.0.babel -f Dockerfile:5.0.0.babel .
 
 
 step 3:
 
 The development stage:
 
-    * clone the easynode source code, git clone https://github.com/hujb2000/easynode.git
+* clone the easynode source code, git clone [easynode](https://github.com/hujb2000/easynode.git)
 
-    * coding suite for the following directory structure( you can reference the netease directory)
+* coding suite for the following directory structure( you can reference the netease directory)
 
-            bin\             start.sh - run the app   stop.sh - stop the app
-            config\          the build-in configurations needs
-            src\             source code
-            test\            test code
-            README.md
+        bin\             start.sh - run the app   stop.sh - stop the app
+        config\          the build-in configurations needs
+        src\             source code
+        test\            test code
+        README.md
 
-    * .dockerignore,  ingnore the files or directories to COPY into the images.
+* .dockerignore,  ingnore the files or directories to COPY into the images.
 
-    * docker-compose.xml
+* docker-compose.xml
 
-            app:
-              dockerfile: "Dockerfile${STAGE}"
-              build: .
-              volumes:
-                - .:/usr/src/app/:rw
-              ports:
-                - 6005:6005
-              dns:
-                - 8.8.8.8
-              env_file:
-                - ./common.env
-              environment:
-                - ENV=aa
-              log_driver: "json-file"
-              restart: always
+        app:
+          dockerfile: "Dockerfile${STAGE}"
+          build: .
+          volumes:
+            - .:/usr/src/app/:rw
+          ports:
+            - 6005:6005
+          dns:
+            - 8.8.8.8
+          env_file:
+            - ./common.env
+          environment:
+            - ENV=aa
+          log_driver: "json-file"
+          restart: always
 
-    * build.sh,    build the images for the project
+* create build.sh,   build the images for the project
 
-        PRJ='projectname' STAGE='DEVELOPMENT' sh build
-        STAGE' value are recommended the following fours: DEVELOPMENT|TEST|PRERELEASE|PRODUCTION
+    PRJ='projectname' STAGE='DEVELOPMENT' sh build
+    STAGE' value are recommended the following fours: DEVELOPMENT|TEST|PRERELEASE|PRODUCTION
 
-    * Define the Dockerfile named DockerfileDEVELOPMENT:
+* Define the Dockerfile named DockerfileDEVELOPMENT:
 
-        FROM node:latest.babel
+    FROM node:5.0.0.babel
 
-        WORKDIR /usr/src/app/${projectname}/bin
+    CMD ["./start.sh"]
 
-        CMD ["./start.sh"]
+* generate development image, The image repository's name will be ${PRJ}${STAGE}_$(servicename), servicename is defined int the docker-compose.yml
 
-    * generate development image, The image repository's name will be ${PRJ}${STAGE}_$(servicename), servicename is defined int the docker-compose.yml
+    PRJ='projectname' STAGE='DEVELOPMENT' sh build.sh
 
-        PRJ='projectname' STAGE='DEVELOPMENT' sh build.sh
+* RUN program
 
+    docker run -ti|-d -p 6005:6005 -v $PWD:/usr/src/app --workdir=/usr/src/app/netease/bin --env MYSQL_CONFIG_URL='http://106.2.36.81/config.json' projectnamedevelopment_app
 
-    * DockerfilePRERELEASE, DockerfilePRODUCTION files' content, such as:
+* Mac X, Nat forwarding
 
-          FROM node:latest.babel
+    docker-machine ip default, 192.168.99.100
 
-          MAINTAINER hujb
+    http://192.168.99.100:6005/
 
-          RUN mkdir -p /usr/src/app
+    Login into the default VirtualBox VM, use this command 'ifconfig eth0', look for the ip 10.0.2.15, then fill the port forwarding form
 
-          COPY . /usr/src/app
-
-
-          WORKDIR /usr/src/app
-          RUN npm install
-
-          WORKDIR /usr/src/app/${project}/bin
-
-          CMD ["./start.sh"]
+    ![port forwarding form](/images/vb_nat.png)
 
 
-[Dockerfile_node*](https://github.com/hujb2000/docker_op)
+    Now use the Mac X local ip to open the page http://10.0.0.3:6005, show normal. that's ok.
 
-[Docker Volume shared filesystems](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems)
+* Mac X, Bridge
 
- 1. Environment replacement
- The ${variable_name}
- The ${variable:-word} indicates that if variable is set then the result will be that value, if variable is not set when word will be the result
- The ${varivble:+word} indicates that if variable is set the word will be the result ,otherwise the result is the empty string.
+    ifconfig eth0
 
+    10.0.0.14
 
- 13. Dockerfile Best Practices
-
-[Dockerfile Best Practices](https://docs.docker.com/engine/articles/dockerfile_best-practices/)
-
-The environment variables set using ENV will persist when a container is run from the resulting image. You can view the values using docker inspect, and change them using docker run --env <key>=<value>.
-
-ADD obeys the following rules:
-
-The <src> path must be inside the context of the build; you cannot ADD ../something /something, because the first step of a docker build is to send the context directory (and subdirectories) to the docker daemon.
-
-If <src> is a URL and <dest> does not end with a trailing slash, then a file is downloaded from the URL and copied to <dest>.
-
-If <src> is a URL and <dest> does end with a trailing slash, then the filename is inferred from the URL and the file is downloaded to <dest>/<filename>. For instance, ADD http://example.com/foobar / would create the file /foobar. The URL must have a nontrivial path so that an appropriate filename can be discovered in this case (http://example.com will not work).
-
-If <src> is a directory, the entire contents of the directory are copied, including filesystem metadata.
-
-
-You can override the ENTRYPOINT instruction using the docker run --entrypoint flag.
-
-The ARG instruction defines a variable that users can pass at build-time to the builder with the docker build command using the --build-arg <varname>=<value> flag. If a user specifies a build argument that was not defined in the Dockerfile, the build outputs an error.
-
-Note: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc.
+    http://10.0.0.14:6005
 
 
 
-export const redis = {
-    "sentinels": [
-        {"host": "121.40.202.254", "port": 26380},
-        {"host": "120.26.112.199", "port": 26380},
-        {"host": "120.26.112.207", "port": 26380}
-    ],
-    name: 'scard-t',
-    password: 'zhpwd',
-    db: 5
-}
+step 4.
 
-export const mongo = {
-    "uri": "mongodb://121.40.202.254:50000,120.26.112.199:50000,120.26.112.207:50000/scard_pro",
-    "options": {
-        "db": {
-            "w": 1,
-            "wtimeout": 15000,
-            "readPreference": "secondaryPreferred",
-            "numberOfRetries": "15"
-        },
-        "user":"scard_pro",
-        "pass":"scard_pro",
-        "mongos": true,
-        "server": {
-            "poolSize": 10,
-            "socketOptions": { "keepAlive": 1 }
-        }
-    }
-};
+Test phase:
 
-var MySQLCluster = require( "ee-mysql-cluster" );
+All the processes are the same as development phase exception for the $PWD and MYSQL_CONFIG_URL env variant.
+
+step 5.
+
+Issue phase:
+
+* Define the Dockerfile named DockerfilePRODUCTION;
+
+        FROM node:5.0.0.babel
+
+        MAINTAINER hujb
+
+        RUN mkdir -p /usr/src/app
+
+        COPY . /usr/src/app
+
+        # run shell script with params
+        #RUN /usr/src/app/install.sh
 
 
+        WORKDIR /usr/src/app
+        RUN npm install
+
+        WORKDIR /usr/src/app/netease/bin
+
+        ENTRYPOINT ["./start.sh"]
+
+* generate development image, The image repository's name will be ${PRJ}${STAGE}_$(servicename), servicename is defined int the docker-compose.yml
+
+      PRJ='projectname' STAGE='PRODUCTION' sh build.sh
 
 
-var cluster = new MySQLCluster( [
-      timeout: 5000
-    , procedures: [ "createTickets", "createLogs" ]
-    , functions: [ "deleteLogs" ]
-] );
+* tag
+
+  docker tag ${PRJ}${STAGE}_$(servicename) registry.hz.netease.com/${PRJ}${STAGE}_$(servicename):version
+
+* push image
+
+  docker push registry.hz.netease.com/${PRJ}${STAGE}_$(servicename):version
+
+* pull image
+
+  docker pull registry.hz.netease.com/${PRJ}${STAGE}_$(servicename):vlogsersion
+
+* run program
+
+docker run -d -p 6005:6005 -v $PWD:/usr/src/app/logs --env MSQL_CONFIG_URL='http://w.6go.tv/config.json' 218.205.113.98:5000/uproduction_app
 
 
-// master, allow 50 concurrent connections
-var node = cluster.addNode( {
-      host: ""
-    , port: 0
-    , user: ""
-    , pass: ""
-    , maxConnections: 50
-} );
 
-// slave, allow 2k concurrent connections
-var node2 = cluster.addNode( {
-      host: ""
-    , port: 0
-    , user: ""
-    , pass: ""
-    , readonly: true
-    , maxConnections: 2000
-} );
-
-ERROR: Cannot start container 62d85673dba5e16bf9ef51c4ffe87b6801b254fe8d1feb10230d4839379ea10b: Cannot link to a non running container: /stkappserverapi_mongo_1 AS /stkappserverapi_app_1/mongo
-
-links:
-    - mongo
-    - redis
-    改成mong2, redis2,就ok了
-
-
-16. Node5.0.0 通运行babel吗?
-cnpm install -g babel-cli 在新的Node5.0.0的版本下不能运行,iojs-3.3.0下运行OK
-Docker : node and iojs two officer repostries
