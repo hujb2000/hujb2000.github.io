@@ -6,24 +6,25 @@ categories: allen.hu update
 ---
 
 
-## tag
+## 标签
 
-** create new tag：command + t **
+** 新建标签：command + t **
 
-close tag：command + w
+关闭标签：command + w
 
-switch tag：command + number or  command + direction key
+切换标签：command + 数字 command + 左右方向键
 
-swich to full screen：command + enter
+切换全屏：command + enter
 
-find：command + f
+查找：command + f
 
-## split screen
+## 分屏
 
-** vertical screen：command + d **
+** 垂直分屏：command + d **
 
-horizontal screen：command + shift + d
+水平分屏：command + shift + d
 
+切换屏幕：command + option + 方向键 command + [ 或 command + ]
 
 ** 查看历史命令：command + ; **
 
@@ -66,12 +67,11 @@ C+y 粘贴至光标后
 
 
 
-
 ** search history command：command + ; **
 
 ** Look history clipboard ：command + shift + h  **
 
-## oterh
+## other
 
 ** clear current line：ctrl + u **
 
