@@ -5,27 +5,25 @@ date:   2015-11-17 13:35:30
 categories: allen.hu update
 ---
 
-#（iterm 2 快捷键）
 
-## 标签
+## tag
 
-** 新建标签：command + t **
+** create new tag：command + t **
 
-关闭标签：command + w
+close tag：command + w
 
-切换标签：command + 数字 command + 左右方向键
+switch tag：command + number or  command + direction key
 
-切换全屏：command + enter
+swich to full screen：command + enter
 
-查找：command + f
+find：command + f
 
-## 分屏
+## split screen
 
-** 垂直分屏：command + d **
+** vertical screen：command + d **
 
-水平分屏：command + shift + d
+horizontal screen：command + shift + d
 
-切换屏幕：command + option + 方向键 command + [ 或 command + ]
 
 ** 查看历史命令：command + ; **
 
@@ -65,3 +63,44 @@ C+y 粘贴至光标后
 
 ** ⌘ + f 所查找的内容会被自动复制 **
 
+
+
+
+
+** search history command：command + ; **
+
+** Look history clipboard ：command + shift + h  **
+
+## oterh
+
+** clear current line：ctrl + u **
+
+** cursor ahead line：ctrl + a **
+
+** cursor to end：ctrl + e **
+
+forward/back：ctrl + f/b (amount to left/right keys)
+
+pre-command：ctrl + p
+
+** search history commands：ctrl + r **
+
+delete the character of current cursor：ctrl + d
+
+** del the character before cursor：ctrl + h **
+
+** del the word before cursor：ctrl + w **
+
+** del until the line end：ctrl + k **
+
+** exchange the text the cursor：ctrl + t **
+
+clear screen 1：command + r
+
+clear screen 2：ctrl + l
+
+C+y parse the after cursor
+
+** selection as copy + middle mouse key as paster **
+
+** ⌘ + f the search's content be copyed automately **
