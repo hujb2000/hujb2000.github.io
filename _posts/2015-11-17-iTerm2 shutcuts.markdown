@@ -6,65 +6,29 @@ categories: allen.hu update
 ---
 
 
-## 标签
+## tag
 
-** 新建标签：command + t **
+** create new tag：command + t **
 
-关闭标签：command + w
+close tag：command + w
 
-切换标签：command + 数字 command + 左右方向键
+switch tag：command + number or  command + direction key
 
-切换全屏：command + enter
+toggle to fullscreen：command + enter
 
-查找：command + f
+find：command + f
 
-## 分屏
+## screen
 
-** 垂直分屏：command + d **
+** vertical screen：command + d **
 
-水平分屏：command + shift + d
+horizontal screen：command + shift + d
 
-切换屏幕：command + option + 方向键 command + [ 或 command + ]
+toggle screen：command + option + direction key command + [ or command + ]
 
-** 查看历史命令：command + ; **
+** look up history command：command + ; **
 
-** 查看剪贴板历史：command + shift + h  **
-
-## 其他
-
-** 清除当前行：ctrl + u **
-
-** 到行首：ctrl + a **
-
-** 到行尾：ctrl + e **
-
-前进后退：ctrl + f/b (相当于左右方向键)
-
-上一条命令：ctrl + p
-
-** 搜索命令历史：ctrl + r **
-
-删除当前光标的字符：ctrl + d
-
-** 删除光标之前的字符：ctrl + h **
-
-** 删除光标之前的单词：ctrl + w **
-
-** 删除到文本末尾：ctrl + k **
-
-** 交换光标处文本：ctrl + t **
-
-清屏1：command + r
-
-清屏2：ctrl + l
-
-C+y 粘贴至光标后
-
-** 选择即复制 + 鼠标中键粘贴，这个很实用**
-
-** ⌘ + f 所查找的内容会被自动复制 **
-
-
+** look up clipboard's history：command + shift + h  **
 
 
 ** search history command：command + ; **
