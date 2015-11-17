@@ -5,9 +5,9 @@ date:   2015-11-17 13:35:30
 categories: allen.hu update
 ---
 
-*（iterm 2 快捷键）
+#（iterm 2 快捷键）
 
-** 标签
+## 标签
 
 ** 新建标签：command + t **
 
@@ -19,7 +19,7 @@ categories: allen.hu update
 
 查找：command + f
 
-** 分屏
+## 分屏
 
 ** 垂直分屏：command + d **
 
@@ -31,7 +31,7 @@ categories: allen.hu update
 
 ** 查看剪贴板历史：command + shift + h  **
 
-其他
+## 其他
 
 ** 清除当前行：ctrl + u **
 
