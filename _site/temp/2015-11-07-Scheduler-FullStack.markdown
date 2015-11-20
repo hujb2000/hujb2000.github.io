@@ -121,4 +121,111 @@ provider by chene
 
 
 
+[Docker Volume shared filesystems](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems)
 
+ 1. Environment replacement
+ The ${variable_name}
+ The ${variable:-word} indicates that if variable is set then the result will be that value, if variable is not set when word will be the result
+ The ${varivble:+word} indicates that if variable is set the word will be the result ,otherwise the result is the empty string.
+
+
+ 13. Dockerfile Best Practices
+
+[Dockerfile Best Practices](https://docs.docker.com/engine/articles/dockerfile_best-practices/)
+
+The environment variables set using ENV will persist when a container is run from the resulting image. You can view the values using docker inspect, and change them using docker run --env <key>=<value>.
+
+ADD obeys the following rules:
+
+The <src> path must be inside the context of the build; you cannot ADD ../something /something, because the first step of a docker build is to send the context directory (and subdirectories) to the docker daemon.
+
+If <src> is a URL and <dest> does not end with a trailing slash, then a file is downloaded from the URL and copied to <dest>.
+
+If <src> is a URL and <dest> does end with a trailing slash, then the filename is inferred from the URL and the file is downloaded to <dest>/<filename>. For instance, ADD http://example.com/foobar / would create the file /foobar. The URL must have a nontrivial path so that an appropriate filename can be discovered in this case (http://example.com will not work).
+
+If <src> is a directory, the entire contents of the directory are copied, including filesystem metadata.
+
+
+You can override the ENTRYPOINT instruction using the docker run --entrypoint flag.
+
+The ARG instruction defines a variable that users can pass at build-time to the builder with the docker build command using the --build-arg <varname>=<value> flag. If a user specifies a build argument that was not defined in the Dockerfile, the build outputs an error.
+
+Note: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc.
+
+
+
+export const redis = {
+    "sentinels": [
+        {"host": "121.40.202.254", "port": 26380},
+        {"host": "120.26.112.199", "port": 26380},
+        {"host": "120.26.112.207", "port": 26380}
+    ],
+    name: 'scard-t',
+    password: 'zhpwd',
+    db: 5
+}
+
+export const mongo = {
+    "uri": "mongodb://121.40.202.254:50000,120.26.112.199:50000,120.26.112.207:50000/scard_pro",
+    "options": {
+        "db": {
+            "w": 1,
+            "wtimeout": 15000,
+            "readPreference": "secondaryPreferred",
+            "numberOfRetries": "15"
+        },
+        "user":"scard_pro",
+        "pass":"scard_pro",
+        "mongos": true,
+        "server": {
+            "poolSize": 10,
+            "socketOptions": { "keepAlive": 1 }
+        }
+    }
+};
+
+var MySQLCluster = require( "ee-mysql-cluster" );
+
+
+
+
+var cluster = new MySQLCluster( [
+      timeout: 5000
+    , procedures: [ "createTickets", "createLogs" ]
+    , functions: [ "deleteLogs" ]
+] );
+
+
+// master, allow 50 concurrent connections
+var node = cluster.addNode( {
+      host: ""
+    , port: 0
+    , user: ""
+    , pass: ""
+    , maxConnections: 50
+} );
+
+// slave, allow 2k concurrent connections
+var node2 = cluster.addNode( {
+      host: ""
+    , port: 0
+    , user: ""
+    , pass: ""
+    , readonly: true
+    , maxConnections: 2000
+} );
+
+ERROR: Cannot start container 62d85673dba5e16bf9ef51c4ffe87b6801b254fe8d1feb10230d4839379ea10b: Cannot link to a non running container: /stkappserverapi_mongo_1 AS /stkappserverapi_app_1/mongo
+
+links:
+    - mongo
+    - redis
+    改成mong2, redis2,就ok了
+
+
+16. Node5.0.0 通运行babel吗?
+cnpm install -g babel-cli 在新的Node5.0.0的版本下不能运行,iojs-3.3.0下运行OK
+Docker : node and iojs two officer repostries
+
+Less is More
+Slow is Fast

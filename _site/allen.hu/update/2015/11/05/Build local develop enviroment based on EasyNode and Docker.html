@@ -34,6 +34,10 @@
       <div class="trigger">
         
           
+          <a class="page-link" href="/temp/2015-11-07-Reactive%20Native.html">Reactive Native</a>
+          
+        
+          
           <a class="page-link" href="/about/">About</a>
           
         
@@ -309,7 +313,7 @@ cp nsenter /usr/local/bin
       <tbody>
         <tr>
           <td>docker run -ti</td>
-          <td>-d -p 6005:6005 -v $PWD:/usr/src/app –workdir=/usr/src/app/netease/bin –env MSQL_CONFIG_URL=’http://w.6go.tv/config.json’ projectnamedevelopment_app</td>
+          <td>-d -p 6005:6005 -v $PWD:/usr/src/app –workdir=/usr/src/app/netease/bin –env MYSQL_CONFIG_URL=’http://106.2.36.81/config.json’ projectnamedevelopment_app</td>
         </tr>
       </tbody>
     </table>
@@ -326,6 +330,15 @@ cp nsenter /usr/local/bin
     <p><img src="/images/vb_nat.png" alt="port forwarding form" /></p>
 
     <p>Now use the Mac X local ip to open the page http://10.0.0.3:6005, show normal. that’s ok.</p>
+  </li>
+  <li>
+    <p>Mac X, Bridge</p>
+
+    <p>ifconfig eth0</p>
+
+    <p>10.0.0.14</p>
+
+    <p>http://10.0.0.14:6005</p>
   </li>
 </ul>
 
@@ -386,117 +399,12 @@ cp nsenter /usr/local/bin
   </li>
   <li>
     <p>run program</p>
+
+    <pre><code>  docker run -d -p 6005:6005 -v $PWD:/usr/src/app/logs --env MSQL_CONFIG_URL='http://w.6go.tv/config.json' 218.205.113.98:5000/uproduction_app
+</code></pre>
   </li>
 </ul>
 
-<p>docker run -d -p 6005:6005 -v $PWD:/usr/src/app/logs –env MSQL_CONFIG_URL=’http://w.6go.tv/config.json’ 218.205.113.98:5000/uproduction_app</p>
-
-<p><a href="https://docs.docker.com/engine/reference/run/#volume-shared-filesystems">Docker Volume shared filesystems</a></p>
-
-<ol>
-  <li>
-    <p>Environment replacement
- The ${variable_name}
- The ${variable:-word} indicates that if variable is set then the result will be that value, if variable is not set when word will be the result
- The ${varivble:+word} indicates that if variable is set the word will be the result ,otherwise the result is the empty string.</p>
-  </li>
-  <li>
-    <p>Dockerfile Best Practices</p>
-  </li>
-</ol>
-
-<p><a href="https://docs.docker.com/engine/articles/dockerfile_best-practices/">Dockerfile Best Practices</a></p>
-
-<p>The environment variables set using ENV will persist when a container is run from the resulting image. You can view the values using docker inspect, and change them using docker run –env <key>=<value>.</value></key></p>
-
-<p>ADD obeys the following rules:</p>
-
-<p>The <src> path must be inside the context of the build; you cannot ADD ../something /something, because the first step of a docker build is to send the context directory (and subdirectories) to the docker daemon.</src></p>
-
-<p>If <src> is a URL and <dest> does not end with a trailing slash, then a file is downloaded from the URL and copied to <dest>.</dest></dest></src></p>
-
-<p>If <src> is a URL and <dest> does end with a trailing slash, then the filename is inferred from the URL and the file is downloaded to <dest>/<filename>. For instance, ADD http://example.com/foobar / would create the file /foobar. The URL must have a nontrivial path so that an appropriate filename can be discovered in this case (http://example.com will not work).</filename></dest></dest></src></p>
-
-<p>If <src> is a directory, the entire contents of the directory are copied, including filesystem metadata.</src></p>
-
-<p>You can override the ENTRYPOINT instruction using the docker run –entrypoint flag.</p>
-
-<p>The ARG instruction defines a variable that users can pass at build-time to the builder with the docker build command using the –build-arg <varname>=<value> flag. If a user specifies a build argument that was not defined in the Dockerfile, the build outputs an error.</value></varname></p>
-
-<p>Note: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc.</p>
-
-<p>export const redis = {
-    “sentinels”: [
-        {“host”: “121.40.202.254”, “port”: 26380},
-        {“host”: “120.26.112.199”, “port”: 26380},
-        {“host”: “120.26.112.207”, “port”: 26380}
-    ],
-    name: ‘scard-t’,
-    password: ‘zhpwd’,
-    db: 5
-}</p>
-
-<p>export const mongo = {
-    “uri”: “mongodb://121.40.202.254:50000,120.26.112.199:50000,120.26.112.207:50000/scard_pro”,
-    “options”: {
-        “db”: {
-            “w”: 1,
-            “wtimeout”: 15000,
-            “readPreference”: “secondaryPreferred”,
-            “numberOfRetries”: “15”
-        },
-        “user”:”scard_pro”,
-        “pass”:”scard_pro”,
-        “mongos”: true,
-        “server”: {
-            “poolSize”: 10,
-            “socketOptions”: { “keepAlive”: 1 }
-        }
-    }
-};</p>
-
-<p>var MySQLCluster = require( “ee-mysql-cluster” );</p>
-
-<p>var cluster = new MySQLCluster( [
-      timeout: 5000
-    , procedures: [ “createTickets”, “createLogs” ]
-    , functions: [ “deleteLogs” ]
-] );</p>
-
-<p>// master, allow 50 concurrent connections
-var node = cluster.addNode( {
-      host: “”
-    , port: 0
-    , user: “”
-    , pass: “”
-    , maxConnections: 50
-} );</p>
-
-<p>// slave, allow 2k concurrent connections
-var node2 = cluster.addNode( {
-      host: “”
-    , port: 0
-    , user: “”
-    , pass: “”
-    , readonly: true
-    , maxConnections: 2000
-} );</p>
-
-<p>ERROR: Cannot start container 62d85673dba5e16bf9ef51c4ffe87b6801b254fe8d1feb10230d4839379ea10b: Cannot link to a non running container: /stkappserverapi_mongo_1 AS /stkappserverapi_app_1/mongo</p>
-
-<p>links:
-    - mongo
-    - redis
-    改成mong2, redis2,就ok了</p>
-
-<ol>
-  <li>Node5.0.0 通运行babel吗?
-cnpm install -g babel-cli 在新的Node5.0.0的版本下不能运行,iojs-3.3.0下运行OK
-Docker : node and iojs two officer repostries</li>
-</ol>
-
-<p>Less is More
-Slow is Fast</p>
 
   </article>
 
