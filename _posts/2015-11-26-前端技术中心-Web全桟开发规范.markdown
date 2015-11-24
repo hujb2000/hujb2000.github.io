@@ -1,0 +1,229 @@
+---
+layout: post
+title:  "前端技术中心-Web全桟开发规范"
+date:   2015-11-26 13:35:30
+categories: allen.hu update
+---
+
+
+
+# 规范目的
+
+  为提升前后端工程师个人价值, 为提高团队整体工作效率, 前端技术中心尝试制定基于JavaScript语言的Web全桟开发规范, 全栈工程师必须按本规范进行前台页面和后台服务开发。本文档如有不对或者不合适的地方请及时提出,经讨论决定后方可更改。
+
+# 规范适用人员
+
+  本规范主要适合Web前端和后台工程师阅读,当然也不排除对全桟开发及这一开发模式感兴趣的其它开发人员、项目管理人员，甚至产品经理阅读。
+
+# 规范声明范围
+
+  本规范圈定的开发范围主要适用于里利用HTML(5)标签、CSS(3)样式表、JavaScript(4\5\6)脚本语言在浏览器上展现的界面开发，以及用ECMAScript2015(ES6)从事后台服务开发，分前端规范和后端规范两部分进行描述。
+
+# 前端规范
+
+  本部分规范主要针对利用HTML(5)标签、CSS(3)样式表、JavaScript(4\5\6)脚本语言在浏览器上展现的界面开发进行描述。
+
+  由于前端技术相关类库繁多，每个类库都有各自擅长的领域，所以我们先对前端的领域进行细分，我们尽量做到细分来避免类库的缺点，充分利用其优点。我们拿做一款互联网产品就拿网易云阅读来说，前端技术应用领域细分为官网、系统管理后台、开放平台、手机端WebView内嵌页、活动广告、直邮等页面，从这个系统可总结以下五类应用场景：
+
+1. 官网： 大众用户， 需要适配主流浏览器，界面变化快而丰富；
+
+2. 类似管理后台：内部用户，选定浏览器，界面变化较少；
+
+3. 类似开放平台：外部少量用户，需要适配主流浏览器，界面变化少；
+
+4. 类似WebView内嵌页：大众用户，需要适配移动主流浏览器，界面变化快而丰富;
+
+5. 类似活动广告、直邮：大众用户，需要适配主流浏览器，界面不变。
+
+
+* 针对第一种使用场景：
+
+	* CSS采用[NEC][1]: 样式分类方式、命名规范、代码格式主要参考该网站。由于该场景要适配主流浏览器，CSS3部分各浏览器支持不广泛的尽量少用，尽量用户自定制。
+
+	* JS库采用：[NEJ][2]或[NEJ][3]与[RegularJS][4]组合
+
+	* HTML标签: HTML5(部分标签各浏览器支持不广泛的尽量少用)
+
+	* 布局：采用固定布局
+
+    * 前端打包工具采用: [NEJ-BUILD][5]
+
+* 针对第二种使用场景
+
+	同第一种场景的选择。
+
+* 针对第二种使用场景
+
+	同第一种场景的选择。
+
+* 针对第四种应用场景
+
+	* CSS采用[NEC][6]: 样式分类方式、命名规范、代码格式主要参考该网站。由于该场景主要针对手机高级浏览器，CSS3特性充分利用。
+
+	* JS库采用：[ReactJS][7]
+
+	* HTML标签: HTML5标签充分利用
+
+	* 布局：柔性伸缩布局
+
+	* 前端打包工具采用: [Gulp][8]或[Webpack][9]
+
+* 针对第五种使用场景
+
+	* CSS/HTML采用:[NEC邮件内容][10]
+
+	* JS不准用
+
+		 
+# 后端规范
+
+   本部分规范主要针对利用Node.JS编写后台服务代码的规范作出说明。由于ES6已2015年6月正式发布，我们强烈建议用ES6来代替ES5来编写代码，建议理由最主要有以下两点：
+
+1. ES6与ES5就好比C与C++的区别，编码效率相差巨大；
+
+2. Babel作为一款优秀的转码器能将ES6代码转为ES5代码。
+
+  所以我们在此特别强调能用JS实现的就用JS实现，JS实现的应用必用ES6来实现。
+
+## 依赖包描述
+
+  由于Node.JS最出色的是它的模块和依赖包管理，通过管理依赖包可以把全人类代码聚集一起，我们经过大量的实践已经找出优秀的依赖包，本规范接下来对这些优秀出色的依赖包做说明。
+	
+### 框架类包
+* koa
+* koa-body
+* koa-compress
+* koa-router
+* koa-validator
+* koa-rt
+* koa-csrf
+* koa-redis
+* koa-static
+* kia-route
+* kia-generic-session
+* koa-memcached
+* koa-qs
+
+
+### 语言类包
+* babel
+* bluebird
+* co
+* thunkify
+
+### 模板类包
+* ejs
+* jade
+* mustache
+
+### 工具类包
+* loads
+* md5
+* moment
+* uuid
+* xml2js
+* xlsx
+* superagent
+* urlencode
+* pinyin
+* archiver
+* iconv-lite
+* babel-fs
+* babel-runtime
+* co-fs
+* co-multipart
+* co-redis
+* date-utils
+* node-uuid
+* opened
+* string
+* request
+* underscore
+
+### 存储类包
+* ioredis
+* mongoose
+* mysql
+* sequelize
+* generic-pool
+* mutt
+* nenos
+* knex
+
+### 测试类包
+* chai
+* co-mocha
+* colors
+* mocha
+* progress
+* supertest
+
+### 打包类
+* gulp
+
+### 调试类包
+* debug
+
+
+# 基于蜂巢的全桟开发流程
+
+## 构建本地开发环境
+* 安装Docker Engine   
+
+	具体参考
+
+	[Installation on Mac OS X][11]
+	  
+	[Installation on Debian][12]  
+
+	不建议在Windows上开发。  
+
+* 拉取基础开发镜像
+
+	docker pull registry.hz.netease.com/easynode:0.0.1
+
+* 安装Easynode
+	nam install -g easynode
+
+* 新建项目
+
+	 easynode init  project
+
+## 开发阶段
+
+把本地开发环境通过环境变量注入，通过以上命令开启应用服务(代码热加载)
+
+ MYSQL_URL=“” docker -run —name projectName —v .:/usr/src/app -P 3000:3000 easynode:0.0.1
+
+打开 http://localhost:3000进行开发。
+
+## 提交镜像给QA
+
+开发运行以下命令生成镜像:
+
+docker build -t project:version .
+
+easynode deploy project:version testconfig.json 发布到蜂巢并运行
+
+QA:测试
+
+## 提交发布
+
+QA测试通过后
+
+开发运行以下命令
+
+easynode deploy project:version productconfig.json 发布到蜂巢并运行
+
+[1]:	http://nec.netease.com/
+[2]:	http://nej.netease.com/ "NEJ"
+[3]:	http://nej.netease.com/
+[4]:	http://regularjs.github.io/
+[5]:	https://github.com/genify/toolkit2
+[6]:	http://nec.netease.com/
+[7]:	https://github.com/facebook/react
+[8]:	https://github.com/gulpjs/gulp
+[9]:	https://github.com/webpack/webpack
+[10]:	http://nec.netease.com/standard/html-email.html
+[11]:	https://docs.docker.com/engine/installation/mac/
+[12]:	https://docs.docker.com/engine/installation/debian

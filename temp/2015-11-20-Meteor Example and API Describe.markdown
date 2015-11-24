@@ -418,3 +418,27 @@ Directly post f iles to clound storage services, such as AWS-s3
 Reactive animations
 
 
+#  Meteor
+
+## Slow Start
+
+    git clone git://github.com/meteor/meteor.git
+
+    cd meteor
+
+    ./scripts/generate-dev-bundle.sh
+
+
+	root
+
+	./meteor --help
+
+	cd docs
+
+	../meteor
+
+## Uninstalling Meteor
+
+	rm -rf ~/.meteor/
+
+    sudo rm /usr/local/bin/meteor
