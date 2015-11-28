@@ -1,0 +1,83 @@
+---
+layout: post
+title:  "Node.JS & ES6 in Node.JS"
+date:   2015-11-27 13:35:30
+categories: allen.hu update
+---
+
+
+
+# ES6 in Node.js
+
+All ECMAScript 2015(ES6) features are split into three groups for shipping, staged, and in progress features.
+
+1.  Shipping: are turned on by default on Node.js
+
+2.  Staged: --es_staging or --harmony to open the feature
+
+3.  In progress: --harmoney_destructuring, although this is highly discouraged unless for testing purposes.
+
+	You may list all the in progress features avaliable on each Node.js release by grepping through the --v8-options argument.
+
+	Please note that these are incomplete and  possibly broken features of V8, so use them at your own risk:
+
+	node --v8-options | grep "in progress"
+
+[JavaScript ECMA-262 specification](http://www.ecma-international.org/publications/standards/Ecma-262.htm)
+
+* Notes
+	--harmony flag one Node.js is to enable staged features only , If you want to play safe, especially on production environments, consider remove this runtime flag until it ships by default on V8 and, consequently, on Node.js. If you keep this enabled,  your should be prepared for further Node.js
+
+	upgrades to break your code if V8 changes their semantics to more closely follow the standard.
+
+* Find the version of V8 ships with the current version of Node.js
+
+	node -p process.versions.v8
+
+# Guids
+
+ * Easy profiling for Node.js Applications
+
+    There are many third party tools available for  profiling Node.js applcaiton , but in many cases, theeasiest option is to use the Node.js
+
+    built in profiler, The built in profiler uses the [profiler  inside V8](https://developers.google.com/v8/profiler_example), In the past you need
+
+    the V8 source code to be able to interpret the ticks. Luckily, tools have recently been introduced into Node.js 4.1.1 that facilitate the consumptions of this
+
+    information without separetely building V8 from source .
+
+        NODE_ENV=production node --prof app.js
+
+		curl -X GET "http://localhost:8080/newUser?username=matt&password=password"
+
+		ab -k -c 20 -n 250 "http://localhost:8080/auth?username=matt&password=password"
+
+		node <path_to_nodejs_src>/tools/v8-prof/tick-processor.js isolate-0x101804c00-v8.log >processed.txt
+
+ * Working with Different Filesystems.
+
+    1. Case Preservation
+	You may create a directory called test/abc and be surprised to see sometimes that fs.readdir('test') returns ['ABC']. This is not a bug in Node.
+	Node returns the filename as the filesystem stores it, and not all filesystems support case-preservation. Some filesystems convert all filenames to uppercase (or lowercase).
+
+	2. Unicode Form  Preservation
+	You may create a directory called test/café (NFC Unicode form with byte sequence <63 61 66 c3 a9> and string.length === 5) and be surprised to
+	see sometimes that fs.readdir('test') returns ['café'] (NFD Unicode form with byte sequence <63 61 66 65 cc 81> and string.length === 6). This is not a bug in Node.
+	Node returns the filename as the filesystem stores it, and not all filesystems support Unicode form preservation.
+
+
+	3. Comparing Different Unicode Forms
+	string1.normalize('NFC') === string2.normalize('NFC')
+
+	4. Timestamp Resolution
+	You may set the mtime (the modified time) of a file to 1444291759414 (millisecond resolution) and be surprised to see sometimes that fs.stat returns the new mtime as 1444291759000 (1-second resolution)
+	or 1444291758000 (2-second resolution). This is not a bug in Node. Node returns the timestamp as the filesystem stores it, and not all filesystems support nanosecond, millisecond or 1-second timestamp
+	resolution. Some filesystems even have very coarse resolution for the atime timestamp in particular,
+
+
+# Node.JS 5.1.0 Api Documentation
+
+
+
+
+

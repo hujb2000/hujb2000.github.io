@@ -168,7 +168,8 @@ categories: allen.hu update
 # 基于蜂巢的全桟开发流程
 
 ## 构建本地开发环境
-* 安装Docker Engine   
+
+* 安装Docker Engine
 
 	具体参考
 

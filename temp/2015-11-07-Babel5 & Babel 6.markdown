@@ -1,0 +1,302 @@
+---
+layout: post
+title:  "Babel 5 & babel 6"
+date:   2015-11-27 13:35:30
+categories: allen.hu update
+---
+
+
+
+# Babel node
+
+[Babel](http://babeljs.io/) hase support for the latest version of JavaScript through syntax transformers. These allow your to use new syntax. right now without waiting for browser support.
+Check out [ES2015 Preset](http://babeljs.io/docs/plugins/preset-es2015/) to get started . [Learn about ES2015](http://babeljs.io/docs/learn-es2015/)
+
+* JSX and React
+
+Babel has support for JSX and Flow. Check out our [React preset](http://babeljs.io/docs/plugins/preset-react/) to get  started. Use it together with the [babel-sublime](https://github.com/babel/babel-sublime)
+
+package to bring syntax highlighting to a whole new level.
+
+
+* Pluggable
+
+Babel is built out of plugins. Compose your own transformation pipeline using existing plugins or write your own. Easily use a set of plugins by useing or creating a preset.[Learn More](http://babeljs.io/docs/plugins/)
+
+
+## setup
+
+* Babel built-ins
+
+	* CLI
+
+		Babel comes with a built-in CLI which can be used to compile files from the command line.
+
+		1. Installation
+
+				npm install -g babel-cli
+
+				babel --version
+
+				babel-node --version
+
+
+		2. Create .babelrc configurations file
+
+		Great! You've configure Babel but  you haven't made it actually do anything.
+
+		Note:
+		Pre-6.x, Babel enabled certain transformations by default. However, Babel 6.x dones not ship with any transformations enabled. You need to explicityly tell it what
+		transformations to run .The simplest way to do this is by using a preset, such as the ES2015 preset.
+		3. .babelrc
+
+		* env option
+
+		4. babel
+
+			* Compile Files
+
+			babel script.js [--watch] -o script-compiled.js --source-map
+
+			[Learn more about source maps](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/)
+
+			babel src -d lib
+
+		5. babel-node
+
+			Babel comes with a second CLI which woks exactly the same as Node.js's CLI, only it will compile ES6 code before running it.
+
+			so you shoud not be using babel-node in production. It  is unnecessarily heavy , with high memory usage due to the cache being stored
+
+			in memory. Your will also wlwasy experience a startup performance penalty as the entire app needs to be compiled on the fly.
+
+
+	* Require hook
+
+		1. Installation
+
+			npm install -g babel-core
+
+		2. Usage
+
+			require('babel-core/register');
+
+			All subsequent files required by node with the extensions .es6, .es, .jsx, and .js will be transformed by Babel. The polyfill specified in polyfill is also automatically required.
+
+			Notes:
+
+			1. Not suitable for libraries
+
+			The require hook automatically hooks itself into all node requires, This will pollute the global scope and introduce conflicts, Because of this it's not suitable for libraries, if
+
+			however you're writing an application then it's completely fine to use.
+
+
+
+
+		* Polyfill
+
+			Babel includes a polyfill that includes a custom [regenerator](https://github.com/facebook/regenerator/blob/master/runtime.js) and
+
+			 [core.s](https://github.com/zloirock/core-js)
+
+					 npm install babel-polyfill
+
+					 require("babel-polyfill");
+
+			 One of the ways you can use Babel is through the require hook, The requie hook will bind itself to node''s require and automatically
+
+			 compile files on the fly. This is equivalent to CoffeeScript's coffee-script/register
+
+			 Note: By default all requires to node_modules will be ignored. You can  override this by passing an ignore regex via:
+
+			            require("babel-register")({
+                          // This will override `node_modules` ignoring - you can alternatively pass
+                          // an array of strings to be explicitly matched or a regex / glob
+                          ignore: false
+                        });
+
+                        require("babel-register")({
+                          // Optional ignore regex - if any filenames **do** match this regex then they
+                          // aren't compiled.
+                          ignore: /regex/,
+
+                          // Ignore can also be specified as a function.
+                          ignore: function(filename) {
+                            if (filename === '/path/to/es6-file.js') {
+                              return false;
+                            } else {
+                              return true;
+                            }
+                          },
+
+                          // Optional only regex - if any filenames **don't** match this regex then they
+                          // aren't compiled
+                          only: /my_es6_folder/,
+
+                          // Setting this will remove the currently hooked extensions of .es6, `.es`, `.jsx`
+                          // and .js so you'll have to add them back if you want them to be used again.
+                          extensions: [".es6", ".es", ".jsx", ".js"]
+                        });
+
+			Environment variable
+
+			 BABEL_CACHE_PATH=/foo/my-cache.json BABEL_DISABLE_CACHE=1 babel-node script.js
+
+* Build systems
+
+	* webpack
+
+		1. Installation
+
+				npm install --save-dev babel-loader babel-core
+
+		2. Usage
+
+				Via config
+
+			    module: {
+			      loaders: [
+			        { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"}
+			      ]
+			    }
+			    Via loader
+
+			    var Person = require("babel!./Person.js").default;
+			    new Person()    ;
+
+* Test framework
+
+	*. Mocha
+
+		1. Usage
+
+				In your package.json file make the following changes:
+
+	            {
+	              "scripts": {
+	                "test": "mocha --compilers js:babel-core/register"
+	              }
+	            }
+
+* Editors and IDES
+
+	* WebStorm
+
+		1.  Usage
+
+			in Preference|Tools|File watchers, click + button and select Babel file watcher fromthis list.
+
+			Lastly, in Language & Framework | JavaScript | JavaScript language version. choose ECMAScript 6.
+
+
+## Babel  6.0.0
+
+In February 2015. @James Kyle decided taht Babel wasn't just going to be a ES6 transpiler. Instead. It needed to become a platform. A suite of tools
+designed to create the next generation of JavaScript tooling.  Blown up into an entire ecosystem of tools.
+
+[documentations](http://documentation.js.org)
+
+[packages directory](https://github.com/babel/babel/tree/development/packages)
+
+*  Opt-in Plugins
+Since Babel is focusing on being a platform for JavaScript tooling and not an ES2015 transpiler, we've decided to make alll of the plugins opt-in.
+This means when you install Babel it will no longer transpiler your ES2015 code by default.  In  order to drastically simplify the public API of Babel.
+each transformer is now completely independent.
+
+* Plugins Presets
+Since specifying and maintaining dozens of transformers in a config  file would be a lot of work , Babel 6  is introducing the concept of Plugin Presets which group
+together similar plugins for easy consumptions.
+
+		npm install --save-dev  babel-preset-es2015, babel-preset-react, babel-preset-stage-0(used to be  stage:0 in .babelrc in babel 5.x)
+
+* Performance Improvements
+
+Performance continues to be one of the top priorities of Babel.
+
+* Plugin API
+
+We received a lot fo feedback that the plugin API was confusing. so in Babel 6 . it's a bit simpler. Note that this is a breaking change.
+ but it should reduce confusion quite a bit.
+ Note:  When updating your plugins ,  please remember to bump your major version since this makes Babel 6 and 6 incompatible. semver is important.
+
+
+
+## Plugins
+
+	* Presets
+
+		1. ES2015
+
+			$ npm install babel-preset-es2015
+
+			Add the following line to your .babelrc file:
+
+						{
+						  "presets": ["es2015"]
+						}
+
+
+		2. stage-0
+
+		3. stage-1
+
+		4. stage-2
+
+		5. stage-3
+
+		6. react
+
+			$ npm install babel-preset-react
+
+			Add the following to your .babelrc file:
+
+						{
+                          "presets": ["react"]
+                        }
+
+
+## Usages
+
+	1. Options
+
+		babel.transform(code,options)
+
+		[options](http://babeljs.io/docs/usage/options/)
+
+	2. .babelrc
+
+	example:
+
+			{
+	          "plugins": ["transform-react-jsx"],
+	          "ignore": [
+	            "foo.js",
+	            "bar/**/*.js"
+
+	             ]
+	        }
+
+        You can  use the env option to set specific options when in a certain  environment.
+
+                {
+                  "env": {
+                    "production": {
+                      "plugins": ["transform-react-constant-elements"]
+                    }
+                  }
+                }
+
+        The env key will taken from process.env.BABEL_ENV, when this is not avalaible then it uses process.env.NODE_ENV if even that is not available then it defaults to "development"
+
+        * Use via package.json
+        You can alternatively choose to specify your .babelrc config from within package.json like so:
+
+
+                {
+                  "name": "my-package",
+                  "version": "1.0.0",
+                  "babel": {
+                    // my babel config here
+                  }
+                }

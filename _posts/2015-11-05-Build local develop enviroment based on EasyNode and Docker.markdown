@@ -117,7 +117,7 @@ Dockerfile's Rules:
 
 7. Can't work to the directory after it just mounted in the Dockerfile
 
-8. Any tiny modify must change the image's version
+8. You must change the image's version after anysome modify.
 
 
 # Enter Container
@@ -299,5 +299,18 @@ Issue phase:
 
         docker run -d -p 6005:6005 -v $PWD:/usr/src/app/logs --env MSQL_CONFIG_URL='http://w.6go.tv/config.json' 218.205.113.98:5000/uproduction_app
 
+
+
+Memoriez:
+
+Machine default already exists.
+Starting machine default...
+Started machines may have new IP addresses. You may need to re-run the `docker-machine env` command.
+Setting environment variables for machine default...
+
+Starting VM...
+Too many retries.  Last error: Maximum number of retries (60) exceeded
+Started machines may have new IP addresses. You may need to re-run the `docker-machine env` command.
+Setting environment variables for machine default...
 
 
