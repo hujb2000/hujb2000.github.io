@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Babel 5 & babel 6"
+title:  "Babel 5 & Babel 6"
 date:   2015-11-27 13:35:30
 categories: allen.hu update
 ---
@@ -224,79 +224,101 @@ We received a lot fo feedback that the plugin API was confusing. so in Babel 6 .
 
 ## Plugins
 
-	* Presets
+* Presets
 
-		1. ES2015
+	1. ES2015
 
-			$ npm install babel-preset-es2015
+		$ npm install babel-preset-es2015
 
-			Add the following line to your .babelrc file:
+		Add the following line to your .babelrc file:
 
-						{
-						  "presets": ["es2015"]
-						}
+					{
+					  "presets": ["es2015"]
+					}
 
+	2. stage-0
+	3. stage-1
+	4. stage-2
+	5. stage-3
+	6. react
 
-		2. stage-0
+		$ npm install babel-preset-react
 
-		3. stage-1
+		Add the following to your .babelrc file:
 
-		4. stage-2
-
-		5. stage-3
-
-		6. react
-
-			$ npm install babel-preset-react
-
-			Add the following to your .babelrc file:
-
-						{
-                          "presets": ["react"]
-                        }
+					{
+                      "presets": ["react"]
+                    }
 
 
 ## Usages
 
-	1. Options
+1. Options
 
-		babel.transform(code,options)
+	babel.transform(code,options)
 
-		[options](http://babeljs.io/docs/usage/options/)
+	[options](http://babeljs.io/docs/usage/options/)
 
-	2. .babelrc
+2. .babelrc
 
-	example:
+example:
 
-			{
-	          "plugins": ["transform-react-jsx"],
-	          "ignore": [
-	            "foo.js",
-	            "bar/**/*.js"
+		{
+          "plugins": ["transform-react-jsx"],
+          "ignore": [
+            "foo.js",
+            "bar/**/*.js"
 
-	             ]
-	        }
+             ]
+        }
 
-        You can  use the env option to set specific options when in a certain  environment.
+You can  use the env option to set specific options when in a certain  environment.
 
-                {
-                  "env": {
-                    "production": {
-                      "plugins": ["transform-react-constant-elements"]
-                    }
-                  }
+            {
+              "env": {
+                "production": {
+                  "plugins": ["transform-react-constant-elements"]
                 }
+              }
+            }
 
-        The env key will taken from process.env.BABEL_ENV, when this is not avalaible then it uses process.env.NODE_ENV if even that is not available then it defaults to "development"
+The env key will taken from process.env.BABEL_ENV, when this is not avalaible then it uses process.env.NODE_ENV if even that is not available then it defaults to "development"
 
-        * Use via package.json
-        You can alternatively choose to specify your .babelrc config from within package.json like so:
+* Use via package.json
+You can alternatively choose to specify your .babelrc config from within package.json like so:
 
 
-                {
-                  "name": "my-package",
-                  "version": "1.0.0",
-                  "babel": {
-                    // my babel config here
-                  }
-                }
+            {
+              "name": "my-package",
+              "version": "1.0.0",
+              "babel": {
+                // my babel config here
+              }
+            }
+
+# How let the easynode become a public module?
+
+
+Tests:
+
+Netease demo it'll work after done the below two steps:
+
+1. npm install babel-preset-es2015
+2. Add the following line to your .babelrc file:
+
+	            {
+	              "presets": ["es2015"]
+	            }
+
+Methods:
+
+1. npm publish , precompile to es5,
+
+	bin/main.js and src directory  compile to es5 only once. success
+
+
+2. global install, npm link,brother directory,  babel-register
+
+
+3. module form , use babel-register to ignore node_modules, but have no  test
+
