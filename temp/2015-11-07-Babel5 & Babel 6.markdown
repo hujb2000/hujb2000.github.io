@@ -316,9 +316,51 @@ Methods:
 
 	bin/main.js and src directory  compile to es5 only once. success
 
+	The first can run successly, but second give tips:
+
+	[2015-11-28 18:18:01.154] [ERROR] root - [ReferenceError: _callee6 is not defined]
+    ReferenceError: _callee6 is not defined
+
+    so cache is doing mischief.
 
 2. global install, npm link,brother directory,  babel-register
 
 
 3. module form , use babel-register to ignore node_modules, but have no  test
 
+
+
+# Question
+
+Allthings is normal When I first run my program ,but The second run it and will throw that I have no anything change to soucecode and configuration .
+
+throw err msg:
+
+		ReferenceError: _callee3 is not defined
+		at _callee3 (main.js:222:20)
+		at /Users/hujiabao/workspace_docker/3easynode/node_modules/co/index.js:50:46
+		at new Promise (/usr/local/lib/node_modules/babel-cli/node_modules/core-js/modules/es6.promise.js:197:7)
+		at co (/Users/hujiabao/workspace_docker/3easynode/node_modules/co/index.js:49:10)
+		at main (main.js:25:9)
+		at Object. (main.js:224:2)
+		at Module._compile (module.js:430:26)
+		at loader (/usr/local/lib/node_modules/babel-cli/node_modules/babel-register/lib/node.js:127:5)
+		at Object.require.extensions.(anonymous function) as .js
+		at Module.load (module.js:355:32)
+
+I think of closing babel cache can solve this problem, so I run like this
+BABEL_DISABLE_CACHE=1 BABEL_CACHE_PATH=my-cache.json sh start.sh
+but the problem still exist, That's Why ?
+
+I would appriciate an early reply!
+
+Anwser:
+
+
+# Issue easynode
+
+	before run there command, modify template1/package.json, easynode:version.
+
+	sudo sh precompile.sh
+
+	sudo sh publish.sh

@@ -9,11 +9,11 @@ categories: allen.hu update
 
 # 规范目的
 
-  为提升前后端工程师个人价值, 为提高团队整体工作效率, 前端技术中心尝试制定基于JavaScript语言的Web全桟开发规范, 全栈工程师必须按本规范进行前台页面和后台服务开发。本文档如有不对或者不合适的地方请及时提出,经讨论决定后方可更改。
+  为提升前后端工程师个人价值， 为提高团队整体工作效率， 前端技术中心尝试制定基于JavaScript语言的Web全桟开发规范， 全栈工程师必须按本规范进行前台页面和后台服务开发。本文档如有不对或者不合适的地方请及时提出，经讨论决定后方可更改。
 
 # 规范适用人员
 
-  本规范主要适合Web前端和后台工程师阅读,当然也不排除对全桟开发及这一开发模式感兴趣的其它开发人员、项目管理人员，甚至产品经理阅读。
+  本规范主要适合Web前端和后台工程师阅读，当然也不排除对全桟开发及这一开发模式感兴趣的其它开发人员、项目管理人员，甚至产品经理阅读。
 
 # 规范声明范围
 
@@ -46,7 +46,7 @@ categories: allen.hu update
 
 	* 布局：采用固定布局
 
-    * 前端打包工具采用: [NEJ-BUILD][5]
+	* 前端打包工具采用: [NEJ-BUILD][5]
 
 * 针对第二种使用场景
 
@@ -74,7 +74,7 @@ categories: allen.hu update
 
 	* JS不准用
 
-		 
+			  
 # 后端规范
 
    本部分规范主要针对利用Node.JS编写后台服务代码的规范作出说明。由于ES6已2015年6月正式发布，我们强烈建议用ES6来代替ES5来编写代码，建议理由最主要有以下两点：
@@ -88,8 +88,9 @@ categories: allen.hu update
 ## 依赖包描述
 
   由于Node.JS最出色的是它的模块和依赖包管理，通过管理依赖包可以把全人类代码聚集一起，我们经过大量的实践已经找出优秀的依赖包，本规范接下来对这些优秀出色的依赖包做说明。
-	
+ 
 ### 框架类包
+
 * koa
 * koa-body
 * koa-compress
@@ -99,8 +100,8 @@ categories: allen.hu update
 * koa-csrf
 * koa-redis
 * koa-static
-* kia-route
-* kia-generic-session
+* koa-route
+* koa-generic-session
 * koa-memcached
 * koa-qs
 
@@ -165,56 +166,208 @@ categories: allen.hu update
 * debug
 
 
-# 基于蜂巢的全桟开发流程
+# 基于蜂巢的最佳全桟开发流程与实践
 
-## 构建本地开发环境
+我们把以上优秀的依赖库有机整合在了一个名叫[EasyNode][11]的框架，您在开发过程中可阅读它的使用帮助手册[EasyNode Docs][12]。
+
+
+### 构建本地开发环境
 
 * 安装Docker Engine
 
-	具体参考
+具体参考
 
-	[Installation on Mac OS X][11]
-	  
-	[Installation on Debian][12]  
+[Installation on Mac OS X][13]
 
-	不建议在Windows上开发。  
+[Installation on Debian][14]
+
+不建议在Windows上开发。
 
 * 拉取基础开发镜像
 
-	docker pull registry.hz.netease.com/easynode:0.0.1
+docker pull registry.hz.netease.com/easynode:0.0.2
 
-* 安装Easynode
-	nam install -g easynode
+easynode:0.0.2基础镜像Dockerfile文件内容为：
 
-* 新建项目
 
-	 easynode init  project
+	FROM registry.hz.netease.com/node:5.1.0
+	
+	RUN npm install -g cnpm --registry=https://r.cnpmjs.org
+	
+	RUN cnpm install babel@6.1.18 -g
+
+
+
+* 拉取开发模版工程
+
+		mkdir yourproject
+		
+		cd yourprorject
+		
+		git clone https://github.com/hujb2000/easynode-template.git
+		
+		PROJECTNAME=yourproject sh init_project.sh 通过此命令定制你的项目名称[通过sed命令文件批量变量制成]
+
+* 创建PC端的开发环境
+
+	由于docker-compose目前来编排多容器的服务并不成熟，故推荐直接用脚本来启动环境服务，在这里我们准备了常用服务，陆续我们将加入更多，供您选配。
+
+	[docker\_devOps][15]
+
+	git clone  https://github.com/hujb2000/docker\_op.git
+
+	通过修改scripts/start\_all.sh的内容，可以选择相应的服务，由于/home/hjb/是我的的目录，请你检查你的目录修改它。
+
+
+
+通过以上四个步骤，我们有了基于容器的开发和运行环境，接下来我们可以进入功能性开发。
 
 ## 开发阶段
 
-把本地开发环境通过环境变量注入，通过以上命令开启应用服务(代码热加载)
+把本地开发环境通过环境变量注入，通过以下命令开启应用服务：
 
- MYSQL_URL=“” docker -run —name projectName —v .:/usr/src/app -P 3000:3000 easynode:0.0.1
+ MYSQL\_URL=“远程或本地的mysql配置文件参数” docker -run —name projectName -p 6005:6005 —v .:/usr/src/app --workdir=/usr/src/app/bin  easynode:0.0.2  start.sh
 
-打开 http://localhost:3000进行开发。
+打开 http://localhost:6005进行开发。
 
-## 提交镜像给QA
+## 开发提交镜像给QA
 
-开发运行以下命令生成镜像:
+* 开发制作镜像
+
+开发提交代码，在代码仓库打好TAG，通过.dockerignore文件来清除运行时不需要的文件，并提交到蜂巢镜像库。
+
+具体操作步骤如下：
+
+项目根目录下运行以下命令生成镜像：
 
 docker build -t project:version .
 
-easynode deploy project:version testconfig.json 发布到蜂巢并运行
+注意：这里version通过MAJOR.MINOR.PATCH，每次运行该命令版本往上加。
 
-QA:测试
+根目录下Dockerfile文件默认内容如下：
 
-## 提交发布
+	FROM registry.hz.netease.com:0.0.2
+	
+	MAINTAINER hujb
+	
+	RUN mkdir -p /usr/src/app
+	
+	COPY . /usr/src/app
+	
+	WORKDIR /usr/src/app
+	
+	RUN cnpm install
+	
+	cnpm install babel-preset-es2015
+	
+	WORKDIR /usr/src/app/bin
+	
+	CMD ["./start.sh"]
 
-QA测试通过后
+根目录下.dockerignore文件的默认内容如下：
 
-开发运行以下命令
+	datas
+	logs/*
+	node_modules/
+	test/
+	*.md
+	README.md
+	docker-compose.yml
+	docker-compose.override.yml2
+	Dockerfile*
+	install.sh
+	.gitignore
+	.dockerignore
+	LICENSE
+	JS_FIlE_TEMPLATE.webstorm10
 
-easynode deploy project:version productconfig.json 发布到蜂巢并运行
+如果有其它在开发过程中添加的文件或目录，不需要打包在发布镜像里的请在.dockerignore文件里修改。
+
+* 开发推送镜像到蜂巢
+
+1. 镜像打标签
+
+	docker tag project.version registry.hz.netease.com/project.version
+
+2. 推送镜像到蜂巢
+
+	docker push registry.hz.netease.com/project.version
+
+目前只杭州办公区域开放权限。
+
+* 开发在蜂巢运行镜像
+
+1. 开发在蜂巢创建自定义镜像
+
+	选择镜像仓库，填写镜像名称： project，镜像标签： verion， 选择Dockerfile文件
+
+	这里的Dockerfile文件内容很简单，一条语句：
+
+
+		    FROM project:version
+
+2. 开发创建服务
+
+	开发在蜂巢选择『创建服务』，选择对应的生产镜像，通过环境变量注入测试用的RDS连接配置文件，日志挂载目录等，由蜂巢完成负载均衡和集群的部署。
+
+* 开发通知QA进行测试
+
+开发通知QA相关测试地址后，QA进行测试。
+
+## 发布上线
+
+QA测试通过后，开发在蜂巢选择『创建服务』，选择对应的生产镜像，通过环境变量注入生产用的RDS连接配置文件，日志挂载目录等，由蜂巢完成负载均衡和集群的部署。
+
+
+## 更新运行环境
+
+假如升级Node或babel的版本:
+
+运行环境的基础镜像的Dockerfile如下:
+
+	FROM registry.hz.netease.com/node:6.1.0
+	
+	RUN npm install -g cnpm --registry=https://r.cnpmjs.org
+	
+	RUN cnpm install babel@7.1.18 -g
+
+生成新镜像:
+
+	docker build -t easynode:0.0.3  .
+
+推送新镜像到蜂巢:
+
+	docker tag registry.hz.netease.com/easynode:0.0.3 easynode:0.0.3
+	
+	docker push registry.hz.netease.com/easynode:0.0.3
+
+开发重做[拉取开发基础镜像][开发制作镜像][开发推送镜像到蜂巢][发布上线]四步，就能在蜂巢一键更新测试、生产环境至最新镜像，各环境做到不停服.
+
+## 扩容
+
+开发在蜂巢选择『扩容』指定扩容目标，自动完成扩容
+
+## 发布回滚
+
+开发选择过去某个版本的生产镜像即可，先开启老版本镜像服务，再停止新镜像服务，不停服，
+
+
+
+# 将来
+
+* 镜像提交权限管控
+
+1. 提交镜像需要用户登陆，镜像和用户绑定
+2. 提交镜像对外部用户开放
+
+* 一键部署功能
+
+1. easynode deploy  project:version config.json 发布到蜂巢并运行
+
+* 弹性服务
+
+根据系统负载能够实现自动扩缩容
+
 
 [1]:	http://nec.netease.com/
 [2]:	http://nej.netease.com/ "NEJ"
@@ -226,5 +379,8 @@ easynode deploy project:version productconfig.json 发布到蜂巢并运行
 [8]:	https://github.com/gulpjs/gulp
 [9]:	https://github.com/webpack/webpack
 [10]:	http://nec.netease.com/standard/html-email.html
-[11]:	https://docs.docker.com/engine/installation/mac/
-[12]:	https://docs.docker.com/engine/installation/debian
+[11]:	https://github.com/hujb2000/easynode/tree/master
+[12]:	http://easynode.github.io/index.html
+[13]:	https://docs.docker.com/engine/installation/mac/
+[14]:	https://docs.docker.com/engine/installation/debianveiw
+[15]:	https://github.com/hujb2000/docker_op
