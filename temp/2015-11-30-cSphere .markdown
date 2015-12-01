@@ -1,0 +1,86 @@
+---
+layout: post
+title:  "cSphere"
+date:   2015-11-30 13:35:30
+categories: allen.hu update
+---
+
+
+# deploy cSphere cloud
+
+安装 controller
+
+curl -SsL -o /tmp/csphere-install.sh https://csphere.cn/static/csphere-install-v2.sh
+sudo env ROLE=controller CSPHERE_VERSION=1.0.0 /bin/sh /tmp/csphere-install.sh
+
+证书
+
+http://218.205.113.98:1016/containers,
+
+docker exec -it csphere/csphere:1.0.0 /bin/sh
+
+/bin/mongod --config /etc/mongodb.conf
+
+基于Mongodb的应用吗?代码呢?
+
+
+安装agent
+curl -SsL -o /tmp/csphere-install.sh https://csphere.cn/static/csphere-install-v2.sh
+sudo env ROLE=agent CONTROLLER_IP=218.205.113.98 CONTROLLER_PORT=1016 CSPHERE_VERSION=1.0.0 AUTH_KEY=558609c4d98b8f8f89d33cfdb76f1e27c475b1309d683f9208f8d4d06f37e70ed4aca1ef5d0c13a3 SVRPOOLID=565c052b8c5bae000f000003 /bin/sh /tmp/csphere-install.sh
+
+
+
+
+目前仅支持docker提供的host网络和nat网络。自定义网络功能我们会在后续版本中支持。
+
+为什么人家的镜像可以做得这么小?
+
+
+
+简洁的扁平化设计风格，秒杀各类传统的管理系统。基于 ES6 和实时数据流技术，希云cSphere 的面板可以实时反馈集群中的任何状态和数据变化，无需频繁刷新。
+
+
+# 培训大纲
+
+## Docker实践之入门以及Dockerfile
+
+1. 基本概念
+2. 常用命令
+3. Dockerfile的编写
+4. 构建Docker镜像的(4个经典案例)
+5. 使用Docker部署Wordpress用例
+
+## Docker实践之Registry以及持续集成
+
+1. 搭建私有DockerHub
+2. 自动构建Docker镜像
+3. 通过compose一键部署多个容器
+4. Jenkins与 Docker配合做持续集成
+5. 通过Docker自动集成测试
+
+
+## Docker实践之监控报警以及日志管理
+
+1. 搭建监控报警系统
+2. 搭建日志管理系统
+3. 模拟访问场景(产生压力)
+4. 收集日志,并图表化展现
+5. 通过普罗米修斯数据库做docker监控，通过ELK做日子收集和展现
+
+## Docker实践之网络管理
+
+1. 熟悉Docker网络模式:nat\host\container\none\overlay 5 种网络
+2. 了解网络模式的特点和使用场景
+3. 使用Docker1.8 experiment版本实现跨越主机通信
+
+## Docker实践之持续部署以及弹性 伸缩
+
+1. 搭建swarm集群,并演示如何与compose结合
+2. 通过compose自动部署应用,并进行扩容缩容
+
+## Docker实践之存储
+
+1. 了解Docker Graph存储，包括aufs、devicemapper、overlayfs，掌握每种存储的使用方法，优缺点，以及我们如何选择
+2. 学习Docker如何运行数据类服务，如何用好Volume
+
+
