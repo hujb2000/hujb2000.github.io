@@ -218,9 +218,187 @@ The giant panda is a kind of docile animal with unique black and white fur. Beca
 
 每天50个单词
 边听边读边记
-分组复习
-短时多次
+分组复习, 5,10,15
+短时多次, 早\中\晚每天记三次
 
 不是大纲词汇,1500个,务必以真题词汇为主.
 
 边记边忘. 怎么达到一个好的效果
+
+不要词根记单词
+
+衍生词的辨认
+
+同义词的整理
+
+了解基本造词规律:
+1. 前缀: 方向,肯定/否定;数字
+2. 后缀: 词性
+3. 词根: 词义
+
+unbelievable
+
+generosity -> generous 单词变,后缀变,词义不变的
+finite->infinte
+chaotic->chaoｓ
+inconsiderate a.->considerate a.
+incompetence n.->competence n.
+
+baffle : v. 使迷糊,  confuse/puzzle
+tough:  a. 棘手的,困难的 difiicult
+stain: n. 污渍,污点   spot
+rally: n. 集会  gather
+temptation: ｎ. 诱惑  lure
+
+peer: 同龄人
+isolate:  使隔离  separate
+abolition:  cancle 取消, 废弃
+slavery : slave: 奴隶
+script: 脚本,剧本
+
+
+manuscript
+trait: characteristics
+double-edged sword:
+nurture: foster 培养
+divate:  ~from 偏离
+
+successively: successive
+stem form : come from /derive from
+underlying:
+
+expertise: 专业知识 expert
+appropriate: proper 适全
+underrepresented:  represent 代表
+tap: 挖掘,发掘
+extrem:  极端的
+
+extinguish:   extincet 熄灭,消亡
+toxic : 有毒的 poisonous
+manifest: 表明 show/indicate
+a multitude of  许多 many
+awareness : 意识  aware
+
+
+
+
+会读了就记住拼写了.
+
+nurture:  ｎ培养: foster  我
+
+in the long run -> later
+grateful -> thank
+immense potential -> promising
+concentrate->fight distraction
+half-50%
+
+测一测阅读里的同义词替换
+
+consuse -> baffle
+chronically
+find jobs-> get hired
+slump->
+lawmaker
+popular
+embrace
+exceed-
+
+
+vulnerability->weakness
+institution->university
+perform -> do
+dramatically
+contribute to->lead to
+dispute->argument
+priority->first
+characteristics -> feature
+
+in the long run -> later
+grateful->thank
+immense potential->promising
+concentrate->fight distraction
+half=>50%
+value->important
+be passionate about->love
+compensation->reward
+
+
+
+# 如何像歪果一样说英文(发音规则专项拓展)
+
+变形单词- Ｎ复数
+
+变形单词
+
+N复数-/ｓ/  /z/  /iz/
+books   words    movies    watches
+
+/buks/  weds/   /muvi:z/   /wtfize/
+清清     浊浊     元浊       6后
+
+清清>>原形结尾->请辅音>/ｓ/
+浊浊>>原形结尾->浊辅音>/z/
+元浊->原形结尾->2元音>/ｚ/ 单元音,双元音
+6后-> S Z f J tf dj ->结尾-> /iz/
+
+变形单词-Ｖ三单  /s/  /z/   /iz/
+takes    decides     goes    wishes
+/teiks/   /di'saidz/ /geuz/  /wifiz/
+清清       浊浊       元浊     6后
+
+
+清清>>原形结尾->请辅音>/ｓ/
+浊浊>>原形结尾->浊辅音>/z/
+元浊->原形结尾->2元音>/ｚ/ 单元音,双元音
+6后-> S Z f J tf dj ->结尾-> /iz/
+
+变形单词-过去式
+变形单词
+Ｖ过去式-- /t/  /d/   /ｉｄ/
+
+taled      floored      showed   decided
+/t>lkt/     /fl>rd/     /feud/    /di'saidid/
+清清         浊浊          元浊     2后
+
+清清>>原形结尾->请辅音>/t/
+浊浊>>原形结尾->浊辅音>/d/
+元浊->原形结尾->2元音>/d/ 单元音,双元音
+6后-> t d ->结尾-> /id/
+
+
+
+单词变变变
+
+变性单词 -名前动后
+变性单词
+N前V后
+
+refuse /refju:s/ n. 垃圾  /ri'fju:z/ v. 拒绝
+excuse /'ｉkskkju:s/ n.原谅  /iks'kju:z/ v.原谅
+suspect /'ｓ^spect/. n.嫌疑犯
+
+变形单词--笨而不愚
+
+repeat   repetition   repetitive
+/ri'p:t/   /rep>tifn/  /ripet>tiv/
+
+economic    economy      economical
+/i:k>n)mik/ /i'k^n>mi/   /i:k>'nomikl/
+
+变性单词的读音--学生版(英式英语)
+1. relax,   relaxation
+2. preside, president
+3. harmony,  harmoniouse
+4. horizon,
+
+魔幻音节
+Unｂelievable
+音节>> 几个元音=几个音节
+重读音节>最重要的音节>有3大规律
+
+-er/-or: 重读音节不变
+-ate;-ary;-ive; 重读音节> 倒数第2个
+所有其他后缀;重读音节;倒数第1个.
+
+
+
