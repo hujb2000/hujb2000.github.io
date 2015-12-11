@@ -1,0 +1,228 @@
+---
+layout: post
+title:  "React"
+date:   2015-12-10 13:35:30
+categories: allen.hu update
+---
+
+# Webpack
+
+
+## Getting Started
+
+### Motivation
+
+* Module system styles
+
+1. CommonJS: synchronous require
+
+2. AMD: asynchronous require
+
+3. ES6: modules
+
+* Transferring
+
+Modules should be executed on the client. so they must be transferred from the server to the browser.
+
+1. 1 request per module
+
+2. all modules in one request
+
+
+### What's webpack
+
+## What's webpack
+
+[Webpack](http://webpack.github.io/docs/) is module bunder, This means webpack takes modules with dependecies and emit static assets representing those modules .
+
+Dependencies can be written in CommonJS or in AMD
+
+
+![What is Webpack](images/what-is-webpack.png)
+
+		// webpack is a module bundler
+        // This means webpack takes modules with dependencies
+        //   and emits static assets representing those modules.
+
+        // dependencies can be written in CommonJs
+        var commonjs = require("./commonjs");
+        // or in AMD
+        define(["amd-module", "../file"], function(amdModule, file) {
+        	// while previous constructs are sync
+        	// this is async
+        	require(["big-module/big/file"], function(big) {
+        		 // for async dependencies webpack splits
+        		 //  your application into multiple "chunks".
+        		 // This part of your application is
+        		 //  loaded on demand (Code Splitting)
+        		var stuff = require("../my/stuff");
+        		// "../my/stuff" is also loaded on demand
+        		//  because it's in the callback function
+        		//  of the AMD require
+        	});
+        });
+
+
+        require("coffee!./cup.coffee");
+        // "Loaders" can be used to preprocess files.
+        // They can be prefixed in the require call
+        //  or configured in the configuration.
+        require("./cup");
+        // This does the same when you add ".coffee" to the extensions
+        //  and configure the "coffee" loader for /\.coffee$/
+
+
+        function loadTemplate(name) {
+        	return require("./templates/" + name + ".jade");
+        	// many expressions are supported in require calls
+        	// a clever parser extracts information and concludes
+        	//  that everything in "./templates" that matches
+        	//  /\.jade$/ should be included in the bundle, as it
+        	//  can be required.
+        }
+
+
+        // ... and you can combine everything
+        function loadTemplateAsync(name, callback) {
+        	require(["bundle?lazy!./templates/" + name + ".jade"],
+        	  function(templateBundle) {
+        		templateBundle(callback);
+        	});
+        }
+
+* How is webpack different ?
+
+1. Code Splitting
+
+webpack has two types of dependencies in its dependency tree: sync and async. Async dependencies act as split points and form a new chunk. After the chunk tree is optimized, a file is emitted for each chunk.
+
+2. Loaders
+
+webpack can only process JavaScript natively, but loaders are used to transform other resources into JavaScript. By doing so, every resource forms a module.
+
+3. Clerver parsing
+
+webpack has a clever parser that can process nearly every 3rd party library.
+
+4. Plugin system
+
+webpack features a rich plugin system. Most internal features are based on this plugin system. This allows you to customize webpack for your needs and distribute common plugins as open source.
+
+
+### Installation
+
+npm install webpack -g
+
+npm install webpack-dev-server --save-dev
+
+### Usage
+
+#### CLI
+
+		webpack <entry> <output>
+
+* entry
+
+Pass a file or request strng, Your can pass multiple entries(every entry is loaded on startup)
+
+#### Node.js
+
+		var webpack = require("webpack");
+
+        // returns a Compiler instance
+        var compiler = webpack({
+            // configuration
+        });
+
+        compiler.run(function(err, stats) {
+            // ...
+        });
+        // or
+        compiler.watch({ // watch options:
+            aggregateTimeout: 300, // wait so long for more changes
+            poll: true // use polling instead of native watchers
+            // pass a number to set the polling interval
+        }, function(err, stats) {
+            // ...
+        });
+
+
+#### Configuration
+
+If your use the CLI will read a file webpack.config.js(or the file passed by the --config option) ,If you use the node.js youd need to pass the configruation object as parameter.
+
+[Configuration object content](http://webpack.github.io/docs/configuration.html)
+
+* context
+
+ The Base directory(absolute path!) for resolving the entry option
+
+* entry
+
+The entry point for the bundle
+
+If your pass a string: The string is resolved to a module which is loaded upon startup.
+
+If  you pass an array: All modules are loaded upon startup. The last one es exported.
+
+* output
+
+output.*
+
+* Module
+
+### Using loaders
+
+* Installation
+
+	npm install ***-loader --save
+
+	npm install ***-loader --save-dev
+
+* Loader
+
+
+		{
+            module: {
+                loaders: [
+                    { test: /\.jade$/, loader: "jade" },
+                    // => "jade" loader is used for ".jade" files
+
+                    { test: /\.css$/, loader: "style!css" },
+                    // => "style" and "css" loader is used for ".css" files
+                    // Alternative syntax:
+                    { test: /\.css$/, loaders: ["style", "css"] },
+                ]
+            }
+        }
+
+1. Babel-loader can transform JSX/ES6 f ile into JS file . Official doc has a complete list of [loaders](http://webpack.github.io/docs/list-of-loaders.html)
+
+
+
+### Dev tools
+
+The webpack-dev-server is a little node.js Express server. which use the webpack-dev-middleware to serve a webpack bundle. It also has a littile runtime which is connected to the server via Socket.IO. The server emits information
+
+about the compilation sate to the client which reacts to thoes events.
+
+
+	webpack-dev-server --content-base public/
+
+	http://localhost:8080/assets/bundle.js
+
+## Tutorial AND Exmaple
+
+[Get started tutorial](http://webpack.github.io/docs/tutorials/getting-started/)
+
+[List of Tutorials](http://webpack.github.io/docs/list-of-tutorials.html)
+
+* Books
+
+[react webpack cookbook](https://fakefish.github.io/react-webpack-cookbook/)
+
+[webpack react](https://github.com/survivejs/webpack_react)
+
+
+
+

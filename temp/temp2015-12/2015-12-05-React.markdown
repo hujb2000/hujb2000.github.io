@@ -1,0 +1,157 @@
+---
+layout: post
+title:  "React"
+date:   2015-12-07 13:35:30
+categories: allen.hu update
+---
+
+# React
+
+
+[React](https://facebook.github.io/react/) : A JavaScript library for building user interfaces.
+
+* Just the ui
+
+Lots of people use React as the V in MVC,  Since React makes no assumptions about the rest of your technology stack. it's easy to try it out on a small feature in an exsisting project.
+
+* virtual Dom
+
+React abstracts wasy the DOM from you , giving a simpler programming model and better performance . React can also render on the server using Node. and it can power native apps using [React Native](https://facebook.github.io/react-native/)
+
+* Data Flow
+
+React implements one-way  reactive data flow which reduces boilerplate and is easier to reason about thant traditional data binding .
+
+* Evertything is a component
+
+When you're in React's world you are just building components that fit into other components. Everything is a component. Unfortunately
+
+* unmountComponentAtNode(domContainerNode)
+
+If you are rendering React components within a single-page app, you may need to plug into the app's view lifecycle to ensure your app will invoke unmountComponentAtNode at the appropriate time. React will not automatically clean up a tree. You need to manually call:
+
+ReactDOM.unmountComponentAtNode(domContainerNode)
+
+This is important and often forgotten. Forgetting to call unmountComponentAtNode will cause your app to leak memory. There is no way for us to automatically detect when it is appropriate to do this work. Every system is different.
+
+It is not unique to the DOM. If you want to insert a React Native view in the middle of an existing iOS app you will hit similar issues.
+
+
+[Object Oriented Updates](https://facebook.github.io/react/blog/2015/10/01/react-render-and-top-level-api.html)
+
+* HTML Tags vs. React Components
+
+React can either render HTML tags (strings) or React components (classes).
+
+To render an HTML tag, just use lower-case tag names in JSX:
+
+		var myDivElement = <div className="foo" />;
+
+		ReactDOM.render(myDivElement, document.getElementById('example'));
+
+## JSX In Depth
+
+	JSX is a JavaScript syntax extension that looks similar to XML. You can use a simple JSX syntactic transform with React.
+
+* Namespaced Component
+
+* Spread Attributes
+
+		  var component = <Component />;
+		  component.props.foo = x; // bad
+		  component.props.bar = y; // also bad
+
+
+		  var props = {};
+          props.foo = x;
+          props.bar = y;
+          var component = <Component {...props} />;
+
+* Reusable Components
+
+Whne designing interfaces . break down the common design elements (button, form fields, layout component , etc.) into reusable components with well-defined interfaces. That way.
+
+The next time you need to build some UI. You can write much less code. This means faster development time , fewer bugs, and fewer bytes down the wire.
+
+
+* Producitonizing:  Precompiled JSX
+
+	npm install babel-preset-es2015 babel-preset-react
+	babel --presets es2015,react --watch src/ --out-dir lib/
+
+
+* Working With the Browser
+
+React provides powerful abstractions that free you from touching the DOM directly in most cases, but sometimes you simply need to access the underlying API.  perhaps to work with a third-partly library or existing code.
+
+
+
+## Docs
+
+* Using React from npm
+
+We recommend using React with a CommonJS module system like [browserify](http://browserify.org/) or [webpack](https://webpack.github.io/)
+
+Use the [react](https://www.npmjs.com/package/react) and [react-dom](https://www.npmjs.com/package/react-dom) npm  packages.
+
+
+
+# browserify
+
+Browserify lets you require('modules') in the browser by building up all of your dependencies.
+
+* install
+
+npm install -g browserify
+
+
+* Describe
+
+Browsers don't have the require method defined. but Node.js does. With browserify can write code tht user require in the same way that you would use it in Node.
+
+Here is a tutoial on how to use Browserify on the command line to bundle up a s imple file  called main.js along with all of ites dependencies.
+
+
+* Example
+
+main.js
+
+		var unique = require('uniq');
+
+		var data = [1,2,3,4,4];
+
+		console.log(unique(data));
+
+Install the uniq module with npm:
+
+	npm install uniq
+
+Now recursively bundle up all the requied modules starting at main.js into a single file called bundle.js  with browserify command:
+
+	browserify main.js -o bundle.js
+
+Browserify parses the [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) for require() calls to traverse the entire dependency graph of your project.
+
+Drop a single <script> tag into your html and you're done!
+
+	<script src="bundle.js"></script>
+
+
+# Examples
+
+## Flux
+
+
+[Flux Example](https://github.com/facebook/flux/tree/master/examples/flux-todomvc/)
+
+[Todo List]
+[Todo Chat]
+
+
+[阮一锋入门实 例教程](http://www.ruanyifeng.com/blog/2015/03/react.html)
+
+## React-UI
+
+[React-UI](http://lobos.github.io/react-ui/#/lang)
+
+[WebPack 打包React](http://doc.okbase.net/vajoy/archive/175576.html)

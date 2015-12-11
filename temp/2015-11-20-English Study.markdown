@@ -405,4 +405,186 @@ Unｂelievable
 所有其他后缀;重读音节;倒数第1个.
 
 
+# 雅思单词量V.S.国内考试大比拼
+
+8000: 雅思词汇
+5500：六级词汇
+4300：四级词汇
+
+怎样记单词最省力，效果最好
+
+1.　四级单词是基础　stop
+2.　核心构词法是催生剂 unstoppable
+3. 上下文猜测单词是能力
+4.　同义词积累是升华
+5.　剑桥系列真题是捷径
+6.　精读是提升内功
+
+
+
+Archeology is a more demanding field of study that
+
+calculate->measure
+transport->deliver
+advantage->benefit
+dificult->problem
+give up-> sacrifice
+possible->
+
+八个字：少时多次，不断重复
+技巧：分级记忆
+要求：50个单词／，逐层凝递进，英汉６.０～６.５／英英６.５－７.０
+英文同义词解释7.0
+
+alternative adj.
+rival.
+tariff
+chronic
+representative
+target
+distrubution
+transparent
+restrict
+contradict
+objectively
+pessimistic
+elementary
+fluctuate
+
+词性，词义　SPEAKING
+能拼，会用　　READING
+
+环境:environment
+描述: desciption
+艺术馆　:gallery
+押金:
+纪律／学课
+
+ 5.5: attractive/cute/lovely/pretty/handsome
+ 6.0: adorable/charming/prince charming
+ 6.5 elgant/graceful/gorgeous
+
+ 上升：rise/increase/climb
+ 下降：decrease/drop/fall/decline
+ 保持不变：level off /stabilize(stabilization)
+ 波动：flucuate(flucuation)
+
+
+# 四六级终极全科测试大会：
+# 让长难句变短变简单-王菲主讲
+
+第一部分：攻克长难句基础篇
+第二部分：攻克长难句理论篇
+第三部分：攻克长难句实战篇
+
+英语词法和句法
+
+## 词法
+
+1. 词法(morphology)英语词类的形式变化
+1）动词
+时态、语态、虚拟语气、主谓一致、非谓语动词
+2）形容词和副词
+比较级&最高级的形式，固定句型
+3）连词-(从属连词&并列连词)
+  * 名词从句
+  * 定语从句
+  * 壮语从句
+
+从属：wh这样子的，if, how, that,
+并列连词:and, or, but 连接句子的，不仅是单词的
+
+## 句法(syntax)
+1) 主语
+名词，代词，数词，不定式，主语从句
+* Beijing is the capital of our country.
+* She is fond of sports.
+* To see    is to believe
+* What I said is right.
+2) 谓语动词：
+动词 & 动词短语
+* My brother rides his bicycle to work.
+* Perple must focus on the problem.
+3)  表语
+名词、代词、形容词、副词、不定式、表语从句
+* His father is a doctor.
+* The lesson is easy and short.
+* Tat classroom is ours.
+* To see is to blieve
+4) 宾语
+名词、代词，形容词，副词，不定式，宾语从句。
+* The medicine is good for her health.
+* I love you.
+5) 定语：
+形容词，v-ing, v-ed, to do , 介词短语，定语从句
+* Li Hong is an excellent teacher.
+
+6)状语
+副词,v-ing, v-ed, to do, 介词短语，状语从句
+* Our monitor does well in English.
+
+定语与状语是看是否有被修饰的名词。  定语位置相对固定，状语可放头或尾
+
+## 简单句
+1. 主语+谓语
+Things change.
+Nobody went.
+
+2. 主语+谓语+宾语
+My sister will fix everything.
+
+3. 主语+谓语+双宾语
+I will write you a long letter.
+
+4. 主语+谓语+宾语+宾补
+I found the book easy.
+
+5. 主语+系+表语
+You look great today.
+
+1. 任何的长难句都是有简单句组成的。
+2. 任何一个长难句都会有1个主句，多个从句。
+
+..., do you take ... for your lawful wife. to have and to hod, from this day forward, for better, for worse , for richer, for poor , in sickness and in health, until death do part you ?
+
+
+## 处理长难句的方法-找主干
+1. 找动词
+* 主+谓语+宾语
+* 主＋系＋表
+
+2.　找连词
+* 并列连词
+	* 句间并列
+	* 单词短语并列
+	* 确定并列成份
+* 从属连词
+
+3. 确定核心动词
+
+4. 找出句子其它成分。
+ 状语、定语
+
+5. 特殊句型灵活处理。
+强调句 ，倒装句，插入句，逗号，破折号， 比较结构-确定比较对象
+
+not ... so much as ...
+"与其说A倒不如说B"或者“是B,而不是A"
+
+* Science moves forward , they say, not so much through the insights of great men of genius as because of more ordinary things like  improved techniques and tools.
+
+*　no more ... than 或 not ... any more than "和...一样不"
+＊ The heart is no more intelligent thatn the stomach, for they are both controlled by the brain.
+
+* Mr.McWhorter's academic specialty is language history and change, and he sees the gradual disppearance of "whom", for example, to be natural and no more regrettable than the loss of the case-endings of Old Engilish.
+
+* Whether such a sense of fairness evolved independently in monkeys and humans, or whether it stems from the common ancestor that the species had 35 million years ago , is ,as yet , an unanswered question.
+
+
+* Where 1 , or wheter 2 (that ...) is question.
+
+* Many who today hear me somewhere in person, or on television, or those who read something I've said, will think I ent to school far beyond the eighth grade.
+
+* 人1 or 人2 will think ...
+
 

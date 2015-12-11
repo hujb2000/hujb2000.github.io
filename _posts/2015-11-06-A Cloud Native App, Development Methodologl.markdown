@@ -11,6 +11,6 @@ categories: allen.hu update
 [The twelve-Factor App](http://hujb2000.github.io/easynode/docs/landslide/twelve.html)
 
 
-
+[The shared  ppt about fullStack development mode](http://hujb2000.github.io/easynode/docs/landslide/fullstack_share.html#slide1)
 
 

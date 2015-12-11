@@ -1,0 +1,14 @@
+---
+layout: post
+title:  "Paas-Deis"
+date:   2015-12-07 13:35:30
+categories: allen.hu update
+---
+
+# Deis
+
+
+
+[Deis](https://github.com/deis/deis) is an open source Paas that makes it easy to deploy and manage applications on your own servers.
+
+Deis builds upone Docker and CoreOS to provide a lightweight Paas with a Heroku-inspired workflow.
