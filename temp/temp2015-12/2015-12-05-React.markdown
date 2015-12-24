@@ -85,8 +85,26 @@ The next time you need to build some UI. You can write much less code. This mean
 React provides powerful abstractions that free you from touching the DOM directly in most cases, but sometimes you simply need to access the underlying API.  perhaps to work with a third-partly library or existing code.
 
 
+* Add-Ons
+
+The React add-ons are a collection of useful utility modules for building React apps. These should be considered experimental and tend to change more often than the core.
+
+1. TransitionGroups and CSSTransitionGroup
+2. LinkedStateMixin
+3. cloneWithProps
+4. createFragment
+5. update
+6. PureRenderMixin
+7. TestUtils
+8. Perf
+
 
 ## Docs
+
+###Reference
+
+* Top-Level API
+
 
 * Using React from npm
 
@@ -110,6 +128,7 @@ npm install -g browserify
 Browsers don't have the require method defined. but Node.js does. With browserify can write code tht user require in the same way that you would use it in Node.
 
 Here is a tutoial on how to use Browserify on the command line to bundle up a s imple file  called main.js along with all of ites dependencies.
+
 
 
 * Example
@@ -152,6 +171,68 @@ Drop a single <script> tag into your html and you're done!
 
 ## React-UI
 
-[React-UI](http://lobos.github.io/react-ui/#/lang)
 
 [WebPack 打包React](http://doc.okbase.net/vajoy/archive/175576.html)
+
+[Infoq React theme](http://www.infoq.com/cn/react1/)
+
+# Books
+
+[react-webpack-cookbook](http://christianalfoni.github.io/react-webpack-cookbook/)
+
+
+# Notes
+
+* 结构与逻辑
+
+在React的世界里，结构和逻辑交由JSX文件组织，React将模板内嵌到逻辑内部，实现了一个JS代码和HTML混合的JSX。
+
+		var CustomComponent = React.creatClass({
+            render: function(){
+                var $nodes = ['h','e','l','l','o'].map(function(str){
+                    return (<span>{str}</span>);
+                });
+                return (<div className="custom-component">{$nodes}</div>);
+            }
+        });
+
+React除了只处理了结构和逻辑，资源也不管，依赖也不管。是的，React将近两万行代码，连个模块加载器都没有提供
+
+React主要实现了一个虚拟Dom, 通过WebPack,WebPack事实上它是一个打包工具，而不是像RequireJS或SeaJS这样的模块加载器，通过使用Webpack，能够像Node.js一样处理依赖关系，然后解析出模块之间的依赖，将代码打包
+
+* 基于ES6 使用React Webpack Babel构建模块化JavaScript应用
+
+	Babel.js不仅支持ES6语法，它还可以编译JSX，所以我们可以在编译步骤彻底弃用标准React JSX编译器了！
+
+现在要处理最棘手的部分——我们有了React组件，我们想使用mocha完成测试，却又不想在浏览器中运行测试（可以运行一个PhantomJS，但是它非常繁重），我们应该如何去做呢？
+
+答案就是jsdom——基于iojs用Java实现了WHATWG的DOM和HTML标准。它比Phantom更轻量，并且满足几乎所有我们测试React所需的功能。
+
+现在我们有了正确运行的mocha测试，我们也可以轻松获取Istanbul覆盖率检测工具并正常执行：
+　　istanbul cover _mocha -- -R spec
+
+[React WebPack例子叼叼的,父子关系](http://segmentfault.com/a/1190000002767365)
+
+
+
+# React Compnent
+
+g.cn, search React-UI table
+
+
+1. [react-components](http://react-components.com/)
+
+2. [Material-UI](http://www.material-ui.com/#/)
+
+A Set  of React Commponents that Implement Googl's Material Design.
+
+Material-UI came about from our love of React and [Googl'e Material Design](https://www.google.com/design/spec/components/tabs.html#tabs-usage)
+
+We're currently using it  one a project at [Call-Em-All] and plan on adding  to it and making  it better in the coming months.
+
+[React: Create maintainable, high-performance UI components](http://www.ibm.com/developerworks/library/wa-react-intro/)
+
+
+3. React-bootstrap
+
+4. [React-UI](http://lobos.github.io/react-ui/#/lang)

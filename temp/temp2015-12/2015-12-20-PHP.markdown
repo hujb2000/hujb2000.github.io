@@ -1,0 +1,287 @@
+---
+layout: post
+title:  "PHP"
+date:   2015-12-20 13:35:30
+categories: allen.hu update
+---
+
+# PHP 教程
+
+PHP 是一种创建动态交互性站点的强有力的服务器端脚本语言。
+PHP 是免费的，并且使用非常广泛。同时，对于像微软 ASP 这样的竞争者来说，PHP 无疑是另一种高效率的选项。
+
+[PHP tutorial](http://www.runoob.com/php/php-tutorial.html)
+
+[安装PHP](http://php.net/manual/en/install.php)
+
+## PHP语法
+
+PHP 脚本以 <?php 开始，以 ?> 结束：
+
+## PHP变量
+
+PHP 变量规则：
+变量以 $ 符号开始，后面跟着变量的名称
+变量名必须以字母或者下划线字符开始
+变量名只能包含字母数字字符以及下划线（A-z、0-9 和 _ ）
+变量名不能包含空格
+变量名是区分大小写的（$y 和 $Y 是两个不同的变量）
+
+PHP是一门弱类型语言
+不必向 PHP 声明该变量的数据类型。
+PHP 会根据变量的值，自动把变量转换为正确的数据类型。
+
+
+PHP 有四种不同的变量作用域：
+1. local
+2. global
+3. static
+4. parameter
+
+PHP global 关键字
+global 关键字用于函数内访问全局变量。
+在函数内调用函数外定义的全局变量，我们需要在函数中的变量前加上 global 关键字：
+
+PHP 将所有全局变量存储在一个名为 $GLOBALS[index] 的数组中。 index 保存变量的名称。这个数组可以在函数内部访问，也可以直接用来更新全局变量。
+
+Static 作用域
+当一个函数完成时，它的所有变量通常都会被删除。然而，有时候您希望某个局部变量不要被删除。
+要做到这一点，请在您第一次声明变量时使用 static 关键字：
+
+## PHP echo/print 语句
+
+PHP echo 和 print 语句
+echo 和 print 区别:
+echo - 可以输出一个或多个字符串
+print - 只允许输出一个字符串，返回值总为 1
+提示：echo 输出的速度比 print 快， echo 没有返回值，print有返回值1。
+
+## PHP数据类型
+
+String（字符串）, Integer（整型）, Float（浮点型）, Boolean（布尔型）, Array（数组）, Object（对象）, NULL（空值）。
+
+PHP 对象
+```
+	<?php
+    class Car
+    {
+      var $color;
+      function Car($color="green") {
+        $this->color = $color;
+      }
+      function what_color() {
+        return $this->color;
+      }
+    }
+    ?>
+
+## PHP常量
+
+设置常量，使用 define() 函数，函数语法如下：
+define(string constant_name, mixed value, case_sensitive = true)
+
+常量是全局变量
+
+## [PHP字符串手册](http://www.runoob.com/php/php-ref-string.html)
+
+## PHP关联数组
+
+[数组手册](http://www.runoob.com/php/php-ref-array.html)
+
+关联数组是使用您分配给数组的指定的键的数组。
+这里有两种创建关联数组的方法：
+$age=array("Peter"=>"35","Ben"=>"37","Joe"=>"43");
+or:
+$age['Peter']="35";
+$age['Ben']="37";
+$age['Joe']="43";
+
+```
+<?php
+$age=array("Peter"=>"35","Ben"=>"37","Joe"=>"43");
+
+foreach($age as $x=>$x_value)
+{
+echo "Key=" . $x . ", Value=" . $x_value;
+echo "<br>";
+}
+?>
+
+## PHP数组排序
+
+sort() - 对数组进行升序排列
+rsort() - 对数组进行降序排列
+asort() - 根据关联数组的值，对数组进行升序排列
+ksort() - 根据关联数组的键，对数组进行升序排列
+arsort() - 根据关联数组的值，对数组进行降序排列
+krsort() - 根据关联数组的键，对数组进行降序排列
+
+## PHP超级全局变量
+
+超级全局变量在PHP 4.1.0之后被启用, 是PHP系统中自带的变量，在一个脚本的全部作用域中都可用。
+
+PHP中预定义了几个超级全局变量（superglobals） ，这意味着它们在一个脚本的全部作用域中都可用。 你不需要特别说明，就可以在函数及类中使用。
+PHP 超级全局变量列表:
+$GLOBALS
+$_SERVER
+$_REQUEST
+$_POST
+$_GET
+$_FILES
+$_ENV
+$_COOKIE
+$_SESSION
+
+
+PHP $_REQUEST
+
+PHP $_REQUEST 用于收集HTML表单提交的数据。
+以下实例显示了一个输入字段（input）及提交按钮(submit)的表单(form)。 当用户通过点击 "Submit" 按钮提交表单数据时, 表单数据将发送至<form>标签中 action 属性中指定的脚本文件。 在这个实例中，我们指定文件来处理表单数据。如果你希望其他的PHP文件来处理该数据，你可以修改该指定的脚本文件名。 然后，我们可以使用超级全局变量 $_REQUEST 来收集表单中的 input 字段数据:
+
+
+```
+<html>
+<body>
+
+<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+Name: <input type="text" name="fname">
+<input type="submit">
+</form>
+
+<?php
+$name = $_REQUEST['fname'];
+echo $name;
+?>
+
+</body>
+</html>
+
+
+PHP $_POST
+
+```
+<html>
+<body>
+
+<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+Name: <input type="text" name="fname">
+<input type="submit">
+</form>
+
+<?php
+$name = $_POST['fname'];
+echo $name;
+?>
+
+</body>
+</html>
+
+For 循环
+```
+foreach ($array as $value)
+{
+要执行代码;
+}
+
+## [PHP 函数参考手册](http://www.runoob.com/php/php-tutorial.html)
+
+## PHP魔术变量
+
+__LINE__
+文件中的当前行号。
+
+__FILE__
+文件的完整路径和文件名。
+
+__DIR__
+文件所在的目录。如果
+
+__FUNCTION__
+函数名称
+
+__CLASS__
+类的名称
+
+__TRAIT__
+Trait 的名字
+
+
+__METHOD__
+类的方法名
+
+__NAMESPACE__
+当前命名空间的名称
+
+## PHP命名空间
+
+## PHP表单
+
+## PHP高级教程
+
+### 多维数组
+
+### PHP日期
+
+### PHP包含文件
+
+include 和 require 除了处理错误的方式不同之外，在其他方面都是相同的：
+require 生成一个致命错误（E_COMPILE_ERROR），在错误发生后脚本会停止执行。
+include 生成一个警告（E_WARNING），在错误发生后脚本会继续执行。
+
+### PHP文件
+
+### PHP文件上传
+
+### PHP Cookies
+
+Cookie是什么, 如何创建Cookie, 取回Cookie, 删除 Cookie
+
+### PHP Session变量
+
+PHP session 解决了这个问题，它通过在服务器上存储用户信息以便随后使用（比如用户名称、购买商品等）。然而，会话信息是临时的，在用户离开网站后将被删除。如果您需要永久存储信息，可以把数据存储在数据库中。
+Session 的工作机制是：为每个访客创建一个唯一的 id (UID)，并基于这个 UID 来存储变量。UID 存储在 cookie 中，或者通过 URL 进行传导。
+
+存储Session
+销毁Session
+
+### PHP Email
+
+### PHP异常处理
+
+### PHP过滤器
+
+### PHP高级过滤器
+
+### PHP JSON
+
+json_encode, json_decode, json_last_error
+
+## PHP MySQL简介
+
+### PHP 连接MySQL
+
+PDO 应用在 12 种不同数据库中， MySQLi 只针对 MySQL 数据库。
+
+PDO为例
+
+[PDO安装](http://php.net/manual/en/pdo.installation.php)
+
+```
+<?php
+$servername = "localhost";
+$username = "username";
+$password = "password";
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=myDB", $username, $password);
+    echo "Connected successfully";
+    }
+catch(PDOException $e)
+    {
+    echo $e->getMessage();
+    }
+?>
+
+关闭连接
+
+$conn = null;

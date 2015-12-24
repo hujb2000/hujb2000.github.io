@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "React"
+title:  "WebPack"
 date:   2015-12-10 13:35:30
 categories: allen.hu update
 ---
@@ -215,14 +215,95 @@ about the compilation sate to the client which reacts to thoes events.
 
 [Get started tutorial](http://webpack.github.io/docs/tutorials/getting-started/)
 
-[List of Tutorials](http://webpack.github.io/docs/list-of-tutorials.html)
+[List of Tutorials importment](http://webpack.github.io/docs/list-of-tutorials.html)
 
-* Books
+# Books
+
+
+## React webpack cookbook(done)
 
 [react webpack cookbook](https://fakefish.github.io/react-webpack-cookbook/)
 
+* 加载CSS
+
+加载 CSS 需要 css-loader 和 style-loader，他们做两件不同的事情，css-loader会遍历 CSS 文件，然后找到 url() 表达式然后处理他们，style-loader 会把原来的 CSS 代码插入页面中的一个 style 标签中。
+
+* CSS-loader
+
+The query parameter modules enables the CSS Modules spec. (css-loader?modules)
+
+This enables Local scoped CSS by default. (You can switch it off with :global(...) or :global for selectors and/or rules.)
+
+Local scope
+```
+:local(.className) { background: red; }
+:local .className { color: green; }
+:local(.className .subClass) { color: green; }
+:local .className .subClass :global(.global-class-name) { color: blue; }
+is transformed to
+._23_aKvs-b8bW2Vg3fwHozO { background: red; }
+._23_aKvs-b8bW2Vg3fwHozO { color: green; }
+._23_aKvs-b8bW2Vg3fwHozO ._13LGdX8RMStbBE9w-t0gZ1 { color: green; }
+._23_aKvs-b8bW2Vg3fwHozO ._13LGdX8RMStbBE9w-t0gZ1 .global-class-name { color: blue; }
+
+
+[Survivejs](http://survivejs.com/)
+
 [webpack react](https://github.com/survivejs/webpack_react)
 
+## React-dom
 
 
+### In the browser
 
+```js
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+class MyComponent extends React.Component {
+  render() {
+    return <div>Hello World</div>;
+  }
+}
+
+ReactDOM.render(<MyComponent />, node);
+```
+
+### On the server
+
+```js
+var React = require('react');
+var ReactDOMServer = require('react-dom/server');
+
+class MyComponent extends React.Component {
+  render() {
+    return <div>Hello World</div>;
+  }
+}
+
+ReactDOMServer.renderToString(<MyComponent />);
+```
+
+## API
+
+### `react-dom`
+
+- `findDOMNode`
+- `render`
+- `unmountComponentAtNode`
+
+### `react-dom/server`
+
+- `renderToString`
+- `renderToStaticMarkup`
+
+
+## Notes
+
+* webpack.config.js
+
+We need two webpack.config.js files one for devleop, another for production.
+
+* 3nd-parth by npm install, no longer need bowser
+
+npm install jquery --save-dev

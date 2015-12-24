@@ -66,7 +66,7 @@ categories: allen.hu update
 
 	* 布局：柔性伸缩布局
 
-	* 前端打包工具采用: [Gulp][8]或[Webpack][9]
+	* 前端打包工具采用: [Webpack][9]
 
 * 针对第五种使用场景
 
