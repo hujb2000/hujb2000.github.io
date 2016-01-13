@@ -319,3 +319,315 @@ ContactStore
           {this.props.children && React.cloneElement(this.props.children, {
             onRemoveTaco: this.handleRemoveTaco
           })}
+
+* huge-apps
+
+global.COURSES=[];
+
+import courses from '';
+
+const rootRoute = {
+  component: 'div',
+  childRoutes: [ {
+    path: '/',
+    component: require('./components/App'),
+    childRoutes: [
+      require('./routes/Calendar'),
+      require('./routes/Course'),
+      require('./routes/Grades'),
+      require('./routes/Messages'),
+      require('./routes/Profile')
+    ]
+  } ]
+}
+
+```
+import React from 'react'
+import { Link } from 'react-router'
+
+const dark = 'hsl(200, 20%, 20%)'
+const light = '#fff'
+const styles = {}
+
+styles.wrapper = {
+  padding: '10px 20px',
+  overflow: 'hidden',
+  background: dark,
+  color: light
+}
+
+styles.link = {
+  padding: 11,
+  color: light,
+  fontWeight: 200
+}
+
+styles.activeLink = {
+  ...styles.link,
+  background: light,
+  color: dark
+}
+
+class GlobalNav extends React.Component {
+
+  constructor(props, context) {
+    super(props, context)
+    this.logOut = this.logOut.bind(this)
+  }
+
+  logOut() {
+    alert('log out')
+  }
+
+  render() {
+    const { user } = this.props
+
+    return (
+      <div style={styles.wrapper}>
+        <div style={{ float: 'left' }}>
+          <Link to="/" style={styles.link}>Home</Link>{' '}
+          <Link to="/calendar" style={styles.link} activeStyle={styles.activeLink}>Calendar</Link>{' '}
+          <Link to="/grades" style={styles.link} activeStyle={styles.activeLink}>Grades</Link>{' '}
+          <Link to="/messages" style={styles.link} activeStyle={styles.activeLink}>Messages</Link>{' '}
+        </div>
+        <div style={{ float: 'right' }}>
+          <Link style={styles.link} to="/profile">{user.name}</Link> <button onClick={this.logOut}>log out</button>
+        </div>
+      </div>
+    )
+  }
+}
+
+GlobalNav.defaultProps = {
+  user: {
+    id: 1,
+    name: 'Ryan Florence'
+  }
+}
+
+export default GlobalNav
+
+
+transform var to subclass
+```
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <GlobalNav />
+        <div style={{ padding: 20 }}>
+          {this.props.children || <Dashboard courses={COURSES} />}
+        </div>
+      </div>
+    )
+  }
+}
+
+class Dashboard extends React.Component {
+  render() {
+    const { courses } = this.props
+
+    return (
+      <div>
+        <h2>Super Scalable Apps</h2>
+        <p>
+          Open the network tab as you navigate. Notice that only the amount of
+          your app that is required is actually downloaded as you navigate
+          around. Even the route configuration objects are loaded on the fly.
+          This way, a new route added deep in your app will not affect the
+          initial bundle of your application.
+        </p>
+        <h2>Courses</h2>{' '}
+        <ul>
+          {courses.map(course => (
+            <li key={course.id}>
+              <Link to={`/course/${course.id}`}>{course.name}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+}
+
+export default Dashboard
+
+动态控制展示
+{content}
+```
+const styles = {}
+
+styles.sidebar = {
+  float: 'left',
+  width: 200,
+  padding: 20,
+  borderRight: '1px solid #aaa',
+  marginRight: 20
+}
+
+class Course extends React.Component {
+  render() {
+    let { sidebar, main, children, params } = this.props
+    let course = COURSES[params.courseId]
+
+    let content
+    if (sidebar && main) {
+      content = (
+        <div>
+          <div className="Sidebar" style={styles.sidebar}>
+            {sidebar}
+          </div>
+          <div className="Main" style={{ padding: 20 }}>
+            {main}
+          </div>
+        </div>
+      )
+    } else if (children) {
+      content = children
+    } else {
+      content = <Dashboard />
+    }
+
+    return (
+      <div>
+        <h2>{course.name}</h2>
+        <Nav course={course} />
+        {content}
+      </div>
+    )
+  }
+}
+
+module.exports = Course
+
+* pinterest
+
+Modal return
+
+```
+ {isModal && (
+    <Modal isOpen={true} returnTo={location.state.returnTo}>
+      {this.props.children}
+    </Modal>
+  )}
+
+  const Modal = React.createClass({
+    styles: {
+      position: 'fixed',
+      top: '20%',
+      right: '20%',
+      bottom: '20%',
+      left: '20%',
+      padding: 20,
+      boxShadow: '0px 0px 150px 130px rgba(0, 0, 0, 0.5)',
+      overflow: 'auto',
+      background: '#fff'
+    },
+
+    render() {
+      return (
+        <div style={this.styles}>
+          <p><Link to={this.props.returnTo}>Back</Link></p>
+          {this.props.children}
+        </div>
+      )
+    }
+  })
+
+* query-params
+
+
+```
+class User extends React.Component {
+  render() {
+    let { userID } = this.props.params
+    let { query } = this.props.location
+    let age = query && query.showAge ? '33' : ''
+
+    return (
+      <div className="User">
+        <h1>User id: {userID}</h1>
+        {age}
+      </div>
+    )
+  }
+}
+
+this.props.location have below attributes
+
+type Location = {
+  pathname: Pathname;
+  search: QueryString;
+  query: Query;
+  state: LocationState;
+  action: Action;
+  key: LocationKey;
+};
+
+
+* ReouteComponent
+In addition to children, route components receive the following props:
+
+ router – The router instance
+ location – The current location
+ params – The current params
+ route – The route that declared this component
+ routeParams – A subset of the params that were specified in the route's path
+
+ * sidebar
+
+ one sidebar data structure
+
+ ```
+ onst data = [
+   {
+     name: 'Tacos',
+     description: 'A taco (/ˈtækoʊ/ or /ˈtɑːkoʊ/) is a traditional Mexican dish composed of a corn or wheat tortilla folded or rolled around a filling. A taco can be made with a variety of fillings, including beef, pork, chicken, seafood, vegetables and cheese, allowing for great versatility and variety. A taco is generally eaten without utensils and is often accompanied by garnishes such as salsa, avocado or guacamole, cilantro (coriander), tomatoes, minced meat, onions and lettuce.',
+     items: [
+       { name: 'Carne Asada', price: 7 },
+       { name: 'Pollo', price: 6 },
+       { name: 'Carnitas', price: 6 }
+     ]
+   },
+   {
+     name: 'Burgers',
+     description: 'A hamburger (also called a beef burger, hamburger sandwich, burger or hamburg) is a sandwich consisting of one or more cooked patties of ground meat, usually beef, placed inside a sliced bun. Hamburgers are often served with lettuce, bacon, tomato, onion, pickles, cheese and condiments such as mustard, mayonnaise, ketchup, relish, and green chile.',
+     items: [
+       { name: 'Buffalo Bleu', price: 8 },
+       { name: 'Bacon', price: 8 },
+       { name: 'Mushroom and Swiss', price: 6 }
+     ]
+   },
+   {
+     name: 'Drinks',
+     description: 'Drinks, or beverages, are liquids intended for human consumption. In addition to basic needs, beverages form part of the culture of human society. Although all beverages, including juice, soft drinks, and carbonated drinks, have some form of water in them, water itself is often not classified as a beverage, and the word beverage has been recurrently defined as not referring to water.',
+     items: [
+       { name: 'Lemonade', price: 3 },
+       { name: 'Root Beer', price: 4 },
+       { name: 'Iron Port', price: 5 }
+     ]
+   }
+ ]
+
+ const dataMap = data.reduce(function (map, category) {
+   category.itemsMap = category.items.reduce(function (itemsMap, item) {
+     itemsMap[item.name] = item
+     return itemsMap
+   }, {})
+   map[category.name] = category
+   return map
+ }, {})
+
+ exports.getAll = function () {
+   return data
+ }
+
+ exports.lookupCategory = function (name) {
+   return dataMap[name]
+ }
+
+ exports.lookupItem = function (category, item) {
+   return dataMap[category].itemsMap[item]
+ }
+
+

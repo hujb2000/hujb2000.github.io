@@ -711,3 +711,72 @@ JoliCi 是一个免费的开源的持续集成客户端，它由 PHP 写成，�
 
 
 [Gogs](http://git.oschina.net/Unknown/gogs)
+
+
+# Youtube
+
+[Package your Java application using Docker and Kubernetes](https://www.youtube.com/watch?v=R2nj1vRjLwE)
+
+Advantages:
+1.  Faster deployments
+2. Isolation
+3. Portability - it works on my machines
+4. Snapshotting
+5. Security sandbox
+6. Limit resource usage
+7. Simplified dependency
+8. sharing.
+
+Underlying Tecknology,Uses serveral Linux features:
+1. Namespaces to provide isolation
+2. Control  groups to share/limit hardware resources.
+3. Union File System makes it light and fast
+4. libcontainer defines container format
+
+Is it only Linux?
+Can be installed on Mac or Windows using boot2docker
+
+Images shared using registry.
+ Docker Hub is public SaaS
+ Private registries can be setup inside firewall.
+ docker push or pull <IMAGE_ID>
+
+Docker Workflow
+Docker client -> Docker Host(Daemon)[Contaienr, Image]<-> Docker Hub[images]
+
+Docker:  Props and Cons(正反两面)
+
+* PROS
+1. Extremes application portability
+2. Very easy to create and work with derivative
+3. Fast boot  on containers
+
+* CONS
+1. Host-Centric solution
+2. No higher-level  provisioning
+3. No usage tracking/reporting.
+
+Kubernetes
+1. Open source orchestration system for docker containers
+2. Provide declarative primitives for the "desired state"
+ * self-healing
+ * auto-restarting
+ * schedule across hosts
+ * replication
+
+Concepts
+
+Pods: collocated group of Docker containers that share and IP and storage volume
+Service: single, stable name for a set of pods, also acts as LB
+Replication Controller: manages the lifecycle of pods and ensures specified number are running
+Label: used to organize and select group of objects.
+
+kubectl: Controls the Kubernetes cluster manager
+kubectl get pods or minions
+kubectl update or delte
+kubectl resize -replicates=3
+
+export KUBERNETES_PROVIDER=vagrant./cluster/kube-up.sh
+
+[Developing and deploying  Spring Boot applications with Docker and Docker compose](https://www.youtube.com/watch?v=XZgO8dM0k0I)
+

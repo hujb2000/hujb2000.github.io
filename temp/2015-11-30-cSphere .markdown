@@ -78,6 +78,42 @@ sudo env ROLE=agent CONTROLLER_IP=218.205.113.98 CONTROLLER_PORT=1016 CSPHERE_VE
 1. 搭建swarm集群,并演示如何与compose结合
 2. 通过compose自动部署应用,并进行扩容缩容
 
+rm /etc/docker/key.json
+
+Demo1
+
+1. 产品代码relase, 已触发自动构建镜像流程
+2. 镜像构建成功,镜像测试已通过
+3. 测试人员得到通知,可以进行测试
+4. 测试人员执行docker-compose up-d 一键部署好测试环境
+5. 测试已通过,标记镜像状态为可发布
+
+Demo2
+
+1. 应用1.0版本已发布
+2. 基于1.0版本,现在有新功能添加,2.0需要发布
+3. 测试流程都已完成,需要再次发布
+
+
+db:
+  container_name: my-db-container
+  image: cshpere/mysql:5.5
+  ports:
+    - "3306:3360"
+  volumes:
+    - /root/my-db:/var/lib/mysql
+web:
+  container_name: my-web-container
+  image: cshpere:/hello:2.0
+  ports:
+    - "80:8080"
+  environment:
+    - DB_HOST=172.17.42.1
+
+docker-compose up -d
+
+
+
 ## Docker实践之存储
 
 1. 了解Docker Graph存储，包括aufs、devicemapper、overlayfs，掌握每种存储的使用方法，优缺点，以及我们如何选择

@@ -7,7 +7,7 @@ categories: allen.hu update
 
 
 docker介绍与入门
-1.什么是D
+1.什么是
 2.示例
 
 docker原理

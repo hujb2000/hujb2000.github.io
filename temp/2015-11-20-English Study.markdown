@@ -588,3 +588,50 @@ not ... so much as ...
 * 人1 or 人2 will think ...
 
 
+
+
+# 艾力优秀演讲技术分享会
+
+say no to ... ,   FAQ, frequent ask question
+
+## Speech Preparation (准备环节)
+
+1. know your audience(了解听众)
+2. Thesis statement(中心句)
+3.
+
+* Be creative(创造性)
+The problem is never how to get new innovative thoughts into your mind , but how to get old ones out. Every mind is a building
+filled with archaic furniture.(难点在于摆脱旧思想的束缚:除旧才能迎新)
+* Be concrete(实在性)
+For the starving, delicious spaghettis(意大利面) matter not  that they are delicious, but they are spaghettis.(对于饥饿的人来说,面好不好吃不重要,重要的是至少要有面条,不能只有酱没有面)
+
+## Speech Writing(讲稿写作)
+
+* Stories:
+If the stories are personal, even better(亲身经历更吸引人)
+* Logics(逻辑)
+If the audience know what you are going to talk about next, you've met the standard called listener-friendly.(让听众知道你下一步会讲什么,而不是让他们猜)
+
+ 演讲不贪多,精益求精
+
+* Language:
+
+Beauty lies in brevity. Telegraphic writing like Hemingway  is way better that a page-long sentence like Dickens(美在于简洁.言简意赅,不要长篇大论)
+
+## Presence(仪态)
+
+* Look as well as you can (展现最好的你)
+* Acknowledge your fear(承认你的恐惧)(蜘蛛,公众演讲,死忘)
+* Simulate the situation(模拟现场情况)
+* Practice Time(留出练习时间)
+
+里根,肯尼迪, 艾力,CCTV
+
+## Noverbal Expression
+
+* Eyes(对视),看眼睛不一定是放电
+* Head(电风扇,不要频繁)
+* Hands(有力的手握另一手)
+* Body(不要驼背)
+* Feet(不要动)
