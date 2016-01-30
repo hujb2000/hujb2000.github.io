@@ -1,0 +1,326 @@
+---
+layout: post
+title:  "API Doc"
+date:   2016-01-29 13:35:30
+categories: allen.hu update
+---
+
+
+# APIDOc
+
+[APIDoc](http://apidocjs.com/)
+
+* install
+
+npm install apidoc -g
+
+* Run
+apidoc -i myapp/ -o apidoc/ -t mytemplates/
+
+Creates an apiDoc of all files within dir myapp/, uses template from dir mytemplate/ and put all output to dir apidoc/.
+
+apidoc -h
+
+apidoc -f  RegEx-Filter to select files that should be parsed
+
+## Configuration(apidoc.json)
+
+```
+{
+  "name": "example",
+  "version": "0.1.0",
+  "description": "apiDoc basic example",
+  "title": "Custom apiDoc browser title",
+  "url" : "https://api.github.com/v1"
+}
+
+If you use a package.json(e.g. in a node.js project) all apidoc.json setting can be done in package.json too. just add them under the
+"apidoc":{} parameter.
+```
+{
+  "name": "example",
+  "version": "0.1.0",
+  "description": "apiDoc basic example",
+  "apidoc": {
+    "title": "Custom apiDoc browser title",
+    "url" : "https://api.github.com/v1"
+  }
+}
+
+## Exampls
+ ```
+ /**
+ * @api {get} /user/:id Request User information
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id Users unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "firstname": "John",
+ *       "lastname": "Doe"
+ *     }
+ *
+ * @apiError UserNotFound The id of the User was not found.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "UserNotFound"
+ *     }
+ */
+
+@api is required, without @api apiDoc ignores a documentation block
+@apiName is a unique name and should always be used.
+    Format: method + path(e.g Get+User)
+@apiGroup should always be used, under that name will this methods be grouped.
+
+All other fields are optional, look at their description under [apiDoc-Params]
+
+### Inherit
+
+```
+/**
+ * @apiDefine UserNotFoundError
+ *
+ * @apiError UserNotFound The id of the User was not found.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "UserNotFound"
+ *     }
+ */
+
+/**
+ * @api {get} /user/:id Request User information
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id Users unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "firstname": "John",
+ *       "lastname": "Doe"
+ *     }
+ *
+ * @apiUse UserNotFoundError
+ */
+In this case a block named UserNotFoundError is defined with @apiDefine. That block could be used many times with @apiUse UserNotFoundError. In the generated output. both methods GET and PUT will have the complete UserNotFoundError documentation.
+
+Use name is apiUser, apiGroup and apiPermission are use commands to , but in their context the not inherit parameters, only title and description(in combination with apiVersion). Inheritation only works with 1 parent, more levels would make the inline code unreadable and changes really complex.
+
+### Versioning
+
+Nice feature is the keeping of previous defined documentation blocks. Thtat makes it possible to compare a methods version with its predecessor. Frontend Developer can thus simply see what have changesd and modify their code.
+
+## apiDoc-Params
+
+* @apidDefine
+
+is  used to define a documentation block as a draft, This draft can be included in normal api documentation blocks. With drafts you can separate complex ore recurrent blocks.
+A defined block can have all params(like @apiParam), exceipt other defined blocks.
+
+* @api
+
+@api {method} path [title]
+Required!
+Without that indicator, apiDoc parser  ignore the documentation block. Except definition blocks like @apiDefined , they not need @api
+Usage: @api {get} /user/:id  Users unique ID.
+
+* @apiDefine
+@apiDefine name [title] [description]
+
+Defines a permission as a draft to be used in @api blocks or in an a  pi function like @apiPermission. @apiDefine can only be used once per block. With @apiUse a defined block will be imported. or with the name the title and description will be used.
+@Usage: @apiDefine MyError
+
+```
+/**
+ * @apiDefine MyError
+ * @apiError UserNotFound The <code>id</code> of the User was not found.
+ */
+
+/**
+ * @api {get} /user/:id
+ * @apiUse MyError
+ */
+
+* @apiDescription
+@apiDescription text
+Detailed description of the API Method.
+Usage: @apiDescription This is the  Description  (Multiline description text)
+
+* apiError
+@apiError [(group)] [{type}] field [description]
+Error return Parameter.
+Usage: @apiError UserNotFound
+(group): optional ,   All parameters will be grouped by this name. Without a group. the default Error 4** is set.  You can set a titile and description with @apiDefine
+{type}: optional,  Return type, e.g.  {Boolean},{Number},{String},{Object},{String[]}(array of strings)
+field: Return Identifier(returned error code).
+description,  optional, Description of the field
+
+* @apiErrorExample
+@apiErrorExample [{type}] [title] example
+Example of an error return message,  output as a pre-formatted code.
+@apiErrorExample {json} Error-Response: This is an example.
+type: optional,  Response format.
+title: optional, Short title for the example.
+example:  Detailed example, multiline capable.
+
+* apiExample
+@apiExample  [{type}] title example
+Example for usage of an API method. Output as a pre-formatted code.
+Use it for a complete example at the beginning of the description of an endpoint.
+```
+/**
+ * @api {get} /user/:id
+ * @apiExample {curl} Example usage:
+ *     curl -i http://localhost/user/4711
+ */
+
+* @apiGroup
+
+@apiGroup name
+Should always be used.
+Defines to which group the method documentation block belongs. Groups will be used for the Main-Navigation in the generated output.
+Usage: @apiGroup User
+
+* @apiHeader
+@apiHeader [(group)] [{type}] [field=defaultValue] [description]
+
+Describe a parameter passed to you API-Header e.g. for Authorization. Similar operation as @apiParam , only the output is above the  parameters.
+
+* @apiHeaderExample
+
+@apiHeaderExample [{type}] [title] example
+
+* @apiIgnore
+
+@apiIgnore [hint]
+
+Place it on top  of a block.
+A block with @apiIgnore will not be parsed. It is usefull, if you leave outdated or not finished Methods in your source code and you don't want to publish it into the documentation.
+Usage: @apiIgnore Not finished Method
+
+* @apiName
+@apiName name
+Should always be used.
+Defines the name of the method documentation block. Names will be used for the Sub-Navigation in the generated output
+Usage: @apiName GetUser.
+
+* @apiParam
+@apiParam [(cgroup)] [{type}] [field=defaultValue]  [description]
+Describe a parameter passed to your API-Method.
+Ussage: @apiParam (myGroup) {Number} id Users unique ID.
+```
+/**
+ * @api {get} /user/:id
+ * @apiParam {Number} id Users unique ID.
+ */
+
+/**
+ * @api {post} /user/
+ * @apiParam {String} [firstname]  Optional Firstname of the User.
+ * @apiParam {String} lastname     Mandatory Lastname.
+ * @apiParam {String} country="DE" Mandatory with default value "DE".
+ * @apiParam {Number} [age=18]     Optional Age with default 18.
+ *
+ * @apiParam (Login) {String} pass Only logged in users can post this.
+ *                                 In generated documentation a separate
+ *                                 "Login" Block will be generated.
+ */
+
+* apiParamExample
+@apiParamExample [{type}] [title] exmaple
+
+Usage:  @apiParamExample {json} Request-Examples: {"content": "This is an example content"}
+
+
+* apiPermission
+@apiPermission name
+Outputs the permission name. If the name is defined with @apiDefine the generated documentation include the additional title and description
+Usage: @apiPermission admin
+/**
+ * @api {get} /user/:id
+ * @apiPermission none
+ */
+
+* @apiSampleRequest
+@apiSampleRequest url
+
+```
+Configuration parameter sampleUrl: "http://api.github.com"
+/**
+ * @api {get} /user/:id
+ * @apiSampleRequest http://test.github.com/some_path/
+ */
+
+Configuration parameter sampleUrl: "http://api.github.com"
+/**
+ * @api {get} /user/:id
+ * @apiSampleRequest off
+ */
+
+* @apiSuccess
+@apiSuccess [(group)] [{type}] field  [description]
+Success  return  Parameter.
+Usage: @apiSuccess  {String} firstname Firstname of the User.
+```
+/**
+ * @api {get} /user/:id
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+Example with Object:
+/**
+ * @api {get} /user/:id
+ * @apiSuccess {Boolean} active        Specify if the account is active.
+ * @apiSuccess {Object}  profile       User profile information.
+ * @apiSuccess {Number}  profile.age   Users age.
+ * @apiSuccess {String}  profile.image Avatar-Image.
+ */
+Example with Array:
+/**
+ * @api {get} /users
+ * @apiSuccess {Object[]} profiles       List of user profiles.
+ * @apiSuccess {Number}   profiles.age   Users age.
+ * @apiSuccess {String}   profiles.image Avatar-Image.
+ */
+
+* @apiSuccessExample
+@apiSuccessExample [{type}] [title] example
+Usage: @apiSuccessExample  {json} Success-Response:  {"content": "This is an example content"}
+
+* @apiUse
+@apiUse name
+Include a with @apiDefine defined block. If used with @apiVersion the same or nearest predecessor will be included
+Usage: @apiUse MySuccess
+
+/**
+ * @apiDefine MySuccess
+ * @apiSuccess {string} firstname The users firstname.
+ * @apiSuccess {number} age The users age.
+ */
+
+/**
+ * @api {get} /user/:id
+ * @apiUse MySuccess
+ */
+
+ * @apiVersion
+ @apiVersion version
+
+ Set the version of an documentation block. Version can also be used in @apiDefine.
+ Blocks with same group and name. but different versions can be compared in the generated output, so you or a frontend developer can retrace what changess in the  API since the last version.
+ Usage: @apiVersion 1.6.2
+

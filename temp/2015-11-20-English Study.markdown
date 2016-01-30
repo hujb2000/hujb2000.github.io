@@ -635,3 +635,15 @@ Beauty lies in brevity. Telegraphic writing like Hemingway  is way better that a
 * Hands(有力的手握另一手)
 * Body(不要驼背)
 * Feet(不要动)
+
+## Q&A(问答环节)
+
+* To the point(切题)
+* Concise(精炼)
+* Logical(有条理)
+* Humorouse(幽默)
+
+## 练习
+乔布斯演讲
+TED演讲集(艾力,游戏与演讲)
+

@@ -87,7 +87,7 @@ categories: allen.hu update
 ## 依赖包描述
 
   由于Node.JS最出色的是它的模块和依赖包管理，通过管理依赖包可以把全人类代码聚集一起，我们经过大量的实践已经找出优秀的依赖包，本规范接下来对这些优秀出色的依赖包做说明。
- 
+
 ### 框架类包
 
 * koa
@@ -190,9 +190,9 @@ easynode:0.0.2基础镜像Dockerfile文件内容为：
 
 
 	FROM registry.hz.netease.com/node:5.1.0
-	
+
 	RUN npm install -g cnpm --registry=https://r.cnpmjs.org
-	
+
 	RUN cnpm install babel@6.1.18 -g
 
 
@@ -200,11 +200,11 @@ easynode:0.0.2基础镜像Dockerfile文件内容为：
 * 拉取开发模版工程
 
 		mkdir yourproject
-		
+
 		cd yourprorject
-		
+
 		git clone https://github.com/hujb2000/easynode-template.git
-		
+
 		PROJECTNAME=yourproject sh init_project.sh 通过此命令定制你的项目名称[通过sed命令文件批量变量制成]
 
 * 创建PC端的开发环境
@@ -225,7 +225,7 @@ easynode:0.0.2基础镜像Dockerfile文件内容为：
 
 把本地开发环境通过环境变量注入，通过以下命令开启应用服务：
 
- MYSQL\_URL=“远程或本地的mysql配置文件参数” docker -run —name projectName -p 6005:6005 —v .:/usr/src/app --workdir=/usr/src/app/bin  easynode:0.0.2  start.sh
+ MYSQL\_URL=“远程或本地的mysql配置文件参数” docker run —-name projectName -p 6005:6005 —v .:/usr/src/app --workdir=/usr/src/app/bin  easynode:0.0.2  start.sh
 
 打开 http://localhost:6005进行开发。
 
@@ -246,21 +246,21 @@ docker build -t project:version .
 根目录下Dockerfile文件默认内容如下：
 
 	FROM registry.hz.netease.com:0.0.2
-	
+
 	MAINTAINER hujb
-	
+
 	RUN mkdir -p /usr/src/app
-	
+
 	COPY . /usr/src/app
-	
+
 	WORKDIR /usr/src/app
-	
+
 	RUN cnpm install
-	
+
 	cnpm install babel-preset-es2015
-	
+
 	WORKDIR /usr/src/app/bin
-	
+
 	CMD ["./start.sh"]
 
 根目录下.dockerignore文件的默认内容如下：
@@ -325,9 +325,9 @@ QA测试通过后，开发在蜂巢选择『创建服务』，选择对应的生
 运行环境的基础镜像的Dockerfile如下:
 
 	FROM registry.hz.netease.com/node:6.1.0
-	
+
 	RUN npm install -g cnpm --registry=https://r.cnpmjs.org
-	
+
 	RUN cnpm install babel@7.1.18 -g
 
 生成新镜像:
@@ -337,7 +337,7 @@ QA测试通过后，开发在蜂巢选择『创建服务』，选择对应的生
 推送新镜像到蜂巢:
 
 	docker tag registry.hz.netease.com/easynode:0.0.3 easynode:0.0.3
-	
+
 	docker push registry.hz.netease.com/easynode:0.0.3
 
 开发重做[拉取开发基础镜像][开发制作镜像][开发推送镜像到蜂巢][发布上线]四步，就能在蜂巢一键更新测试、生产环境至最新镜像，各环境做到不停服.
