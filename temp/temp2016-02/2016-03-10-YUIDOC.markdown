@@ -1,0 +1,144 @@
+---
+layout: post
+title:  "YUIDOC"
+date:   2016-03-10 13:35:30
+categories: allen.hu update
+---
+
+
+
+# YUIDOC
+
+[YUIDOC](http://yui.github.io/yuidoc/) is a Node.js application that generate API documentation from comments in source, using a syntax similar to tools like Javadoc and Doxygen, YUIDoc provides.
+
+* Live previews,  includes a standalone doc server
+* Modern markup
+* Wide language support, it is not tied to any  particular library or programming lanuage.
+
+## Installation and Usage
+
+* Dowload and install Node.js
+* Run npm -g install yuidoc.js
+* Run yuidoc . all the top of your JS source tree.
+
+
+## Example
+
+1. Example Class Block
+
+/*
+ * This is the description for my class.
+ *
+ * @class MyClass
+ * @constructor
+ */
+
+2. Example Method Block
+
+/*
+ * My method description. Like other pieces of your comment blocks.
+ * this can span multiple lines
+ *
+ * @method methodName
+ * @param {String} foo Argument 1
+ * @param {Object} config A config Object
+ * @param {String} config.name  The name on the config object
+ * @param {Function} config.callback A callback function on the config object
+ * @param {Boolean} [extra=false] Do extra,  optional work
+ * @return {Boolean} Returns true  on success
+ *
+ */
+
+3. Example Property Block
+
+/*
+ * My property description. Like other pieces of your comment block.
+ * this can span multiple lines.
+
+ * @proerty propertyName
+ * @type {Object}
+ * @default "foo"
+ */
+
+
+
+4. Example Code Block
+
+/**
+ * This is the __module__ description for the `YUIDoc` module.
+ *
+ *     var options = {
+ *         paths: [ './lib' ],
+ *         outdir: './out'
+ *     };
+ *
+ *     var Y = require('yuidoc');
+ *     var json = (new Y.YUIDoc(options)).run();
+ *
+ * @class YUIDoc
+ * @main yuidoc
+ */
+
+## User Guides
+
+### Using YUIDoc
+
+Understanding YUIDoc command line arguments and usage.
+
+ yuidoc .
+
+
+Usage: yuidoc <options> <input path>
+ -c:  A JSON config file
+ -e:  --extension <comma sep list of file extension>  The list of file extensions to parse for api ducumentation(defaults to .js)
+ -x: --exclude <comm sep list of directories> Directories to exclude from parsing (defaults to '.DS_Store', .svn, CVS,.git, build_roolup_tmp, build_tmp')
+ -t: --themedir <directory path > Path to put the generated files (defautls to ./out)
+ --server: <port> Fire up the YUIDoc server for faster API doc development. Pass optional port to listen on.(default is 3000)
+
+yuidoc.json configuration file
+
+YUIDoc Options:
+ignorePaths: Use exclude to remove specific directories.
+exclude: exclude from parses when YUIDoc recurses the source tree.
+paths: Specifies a single string glob or array of globs to use when searching the source tree for docs to parse.
+outdir: Specifies the directory in which to place the rendered HTML files and assets.
+
+```
+{
+  "name": "YUIDoc",
+  "description": "YUIDoc documentation tool written in JavaScript",
+  "version": "0.2.38",
+  "url": "http://yuilibrary.com/projects/yuidoc",
+  "logo": "http://yuilibrary.com/img/yui-logo.png",
+  "options": {
+    "external": {
+      "data": "http://yuilibrary.com/yui/docs/api/data.json"
+    },
+    "linkNatives": "true",
+    "attributesEmit": "true",
+    "paths": [
+      "./lib"
+    ],
+    "outdir": "./output/api"
+  }
+}
+
+Example: Using preprocessor
+
+
+This sample yuidoc.json file used preprocessor option:
+
+```
+{
+  "name": "My Project",
+  "version": "1.0.0",
+  "options": {
+    "paths": "src",
+    "preprocessor": ["./path/to/custom_doc_preprocessor.js", "yuidoc-preprocessor-foo"]
+  }
+}
+
+
+### Syntax
+
+ [Syntax](http://yui.github.io/yuidoc/syntax/index.html)

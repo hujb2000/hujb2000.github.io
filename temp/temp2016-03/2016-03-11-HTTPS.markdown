@@ -1,0 +1,45 @@
+---
+layout: post
+title:  "HTTPS"
+date:   2016-03-11 13:35:30
+categories: allen.hu update
+---
+
+
+[主要参考](http://yuedu.163.com/news_reader/#/~/source?id=be1d7ae9a5ef491b86de2e303dda7582_1&cid=51e0253f23f449b1a4d7b2d5f9785c7c_1)
+
+/usr/local/nginx/sbin/nginx  1.8.1 没有启用SSL
+/sbin/nginx 1.21.0  启用SSL, 修改/etc/nginx/下的配置
+
+
+Config:
+
+server {
+
+listen 80;
+
+rewrite (.*) https://$host$1 permanent;
+
+#return 301 https://$host$request_uri;
+
+}
+
+server {
+
+server_name dev.test.com;
+
+listen 443;
+
+ssl on;
+
+ssl_certificate /home/tls/test.crt;
+
+ssl_certificate_key /home/tls/test.key;
+
+location / {
+
+proxy_pass http://127.0.0.1:7001;
+
+}
+
+}

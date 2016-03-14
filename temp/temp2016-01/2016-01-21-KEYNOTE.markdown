@@ -1,0 +1,21 @@
+---
+layout: post
+title:  "KEYNOTE"
+date:   2016-01-29 13:35:30
+categories: allen.hu update
+---
+
+
+# Overview
+
+
+Keynote makes it easy to create and show  beautiful  presentations. Start with  one of the themes, then modify it however you like . Each theme comes with predesigned styles- coordinated sets of colors, borders, effects, and so on- for text , shapes, photos, video , and other objects.
+
+when you select text or an object - like a photo or a shape -  in a presentation, formattting controls for it appear in the sidebar on the right. Only the controls you need to modify object are visible. If you don't see a sidebar, click in the toolbar
+
+You can quickly change the look of the selected text or object(image,shape, table,  or cell) by applying a new style to it . For  text, click the paragraph style name at the top of the sidebar on the right and choose a new paragraph style. For objects, click one  of the six object styles.
+
+Use the other controls in the sidebar to customize the object however you like. You can save your setting as a new style , which is the available in the sidebar so you can apply it to other next text or object. You can also save the presentation as a new theme.
+
+# Show topics
+

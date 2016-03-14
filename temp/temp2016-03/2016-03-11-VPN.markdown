@@ -1,0 +1,101 @@
+---
+layout: post
+title:  "VPN"
+date:   2016-03-11 13:35:30
+categories: allen.hu update
+---
+
+[VNP Setup using the command line](https://wiki.ubuntu.com/VPN)
+[PPTP Client](https://www.digitalocean.com/community/articles/how-to-setup-your-own-vpn-with-pptp)
+
+# CloudTizi
+
+由于 Linux 发行版较多，云梯向普通用户提供了主流系统的图形教程，关于其他发行版配置 VPN 的高级用户暂时还没有使用教程。
+你可以参考以下链接的内容，是 Ubuntu 上用命令行配置 PPTP 协议的方法：
+https://wiki.ubuntu.com/VPN 中的 VPN setup using the command line
+https://www.digitalocean.com/community/articles/how-to-setup-your-own-vpn-with-pptp 中从 Step 5 - Setup Clients 开始的内容
+
+PPTP 是 VPN 标准协议，各个主流系统应该默认就支持，你也可以网上搜索一下相关信息哦～
+
+
+[主要参考](http://blog.linuxphp.org/archives/135/)
+
+* 用以下命令安装pptp client 软件
+
+apt-get install pptp-linux iproute
+
+* 创建连接vpn账号信息
+
+pptpsetup --create linuxphp --server vpn.example.com  --username vpn_daemon --password xxaacc --encrypt
+
+pptpsetup --create linuxphp --server p1.tw1.seeplease.com --username hujb2000 --password aa.com
+
+* 查看配置文件
+
+/etc/ppp/peers/linuxphp
+
+```
+# written by pptpsetup
+pty "pptp p1.tw1.seeplease.com --nolaunchpppd"
+lock
+noauth
+nobsdcomp
+nodeflate
+name hujb2000
+password cloudtizi.com
+remotename linuxphp
+ipparam linuxphp
+require-mppe-128
+
+/etc/ppp/chap-secrets
+```
+# Secrets for authentication using CHAP
+# client        server  secret                  IP addresses
+
+# added by pptpsetup for linuxphp
+hujb2000 linuxphp "" *
+
+* 拔号linuxphp
+
+pon linuxphp
+
+* ifconfig查看接入信息
+
+```
+ppp0      Link encap:Point-to-Point Protocol
+          inet addr:10.10.0.5  P-t-P:10.10.0.1  Mask:255.255.255.255
+          UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1496  Metric:1
+          RX packets:5 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:26 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:3
+          RX bytes:62 (62.0 B)  TX bytes:1050 (1.0 KiB)
+
+* 制作route.sh
+
+在OS X系统上查看 cloudtizi.com的推送的路由信息：
+netstat -rn
+netstat -rn|grep 10.242.0.1|awk '{print "ip ro add "$1" via 10.0.0.1"}' > a.sh 生成的路由表里要删除第一条默认路由信息表，否则又要连接不上了。
+然后加在zhapn1上
+ip ro add 223.160.0/14 via 10.10.0.1, OK
+
+注意：不要替换默认网关，自己机器的外网段路由信息也去除
+
+* 查看路由信息
+
+sh route.sh 配置路由信息
+ ip route sh 查看路由信息
+
+
+
+* 测试
+
+ping p80.pool.sks-keyservers.net
+
+* 单个不通的单独处理
+
+ping http.debian.net
+ip ro add 128.31.0.66 via 10.10.0.1
+
+
+* 关闭VPN
+
