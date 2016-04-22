@@ -1,0 +1,14 @@
+---
+---
+layout: post
+title:  "Leetcode"
+date:   2016-04-14 13:35:30
+categories: allen.hu update
+---
+
+
+# Leetcode
+[国外的知乎](https://www.quora.com/What-is-your-review-of-Leetcode)
+[leetcode](https://leetcode.com/problemset/algorithms/)  code skills interview.
+
+

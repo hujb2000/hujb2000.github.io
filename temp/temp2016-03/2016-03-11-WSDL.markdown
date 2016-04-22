@@ -21,8 +21,3 @@ Debian 不支持，需要从源码安装
 
 不要用 sudo ，OS X 下我一般是直接在当前目录下用的，不设置 GOPATH ，现用现设。
 GOPATH=`pwd` go get github.com/revel/revel
-
-
-curl http://122.224.213.98/ISPWebService/upDownLoad?wsdl >> upDownLoad.wsdl
-curl http://122.224.213.98/BeianStatusWebService/queryBeianStatus?wsdl >> queryBeianStatus.wsdl
-curl http://zcaisp.miitbeian.gov.cn/BeianStatusWebService/verifyBamm?wsdl >> verifyBam.wsdl

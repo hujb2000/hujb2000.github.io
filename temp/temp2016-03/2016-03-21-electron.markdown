@@ -1,0 +1,270 @@
+---
+---
+layout: post
+title:  "electron"
+date:   2016-03-21 13:35:30
+categories: allen.hu update
+---
+
+
+[electron](http://electron.atom.io/)
+
+# Electron
+
+Build cross  platform desktop apps with web technologies
+
+
+# Setup
+
+* Install the `electron` command globally in your $PATH
+npm install electron-prebuilt -g
+
+* Install as a development dependency
+npm install electron-prebuilt --save-dev
+
+
+
+
+# Quick start
+
+$ Clone the Quick Start repository
+$ git clone https://github.com/atom/electron-quick-start
+
+$ Go into the repository
+$ cd electron-quick-start
+
+$ Install the dependencies and run
+$ npm install && npm start
+
+# Benefit
+
+The hard parts made easy
+
+* Automatic updates
+* Crash reporting
+* Windows installers
+* Debugging & profiling
+* Native menu & notifications
+
+
+# Docs
+
+[Docs](http://electron.atom.io/docs/v0.37.2/)
+
+* Supported Platforms
+1. OS X
+2. Windows
+3. Linux
+
+## Application Distribution
+
+On OS X:
+
+```
+electron/Electron.app/Contents/Resources/app/
+├── package.json
+├── main.js
+└── index.html
+
+* Packaging Your App into a File
+
+Apart from shipping your app by copying all of its source files, you can also package your app into an asar archive to avoid exposing your app’s source code to users.
+
+```
+electron/Electron.app/Contents/Resources/
+└── app.asar
+
+Rebranding with Downloaded Binaries
+
+```
+MyApp.app/Contents
+├── Info.plist
+├── MacOS/
+│   └── MyApp
+└── Frameworks/
+    ├── MyApp Helper EH.app
+    |   ├── Info.plist
+    |   └── MacOS/
+    |       └── MyApp Helper EH
+    ├── MyApp Helper NP.app
+    |   ├── Info.plist
+    |   └── MacOS/
+    |       └── MyApp Helper NP
+    └── MyApp Helper.app
+        ├── Info.plist
+        └── MacOS/
+            └── MyApp Helper
+
+* MAS Submission Guide
+
+* Application Packaging
+
+1. Generating asar Archive
+
+asar pack your-app app.asar
+
+asar extract app.asar appdir
+
+asar list app.asar
+
+* Using Native Node Modules
+
+The native Node modules are supported by Electron, but since Electron is using a different V8 version from official Node, you have to manually specify the location of Electron’s headers when building native modules.
+
+1. How to Install Native Modules
+
+```
+npm install --save-dev electron-rebuild
+
+# Every time you run "npm install", run this
+./node_modules/.bin/electron-rebuild
+
+# On Windows if you have trouble, try:
+.\node_modules\.bin\electron-rebuild.cmd
+
+
+*  Debugging the Main Process
+
+--debug-brk=[port]
+
+npm install node-inspector
+
+npm install git+https://git@github.com/enlight/node-pre-gyp.git#detect-electron-runtime-in-find
+
+$ electron --debug=5858 your/app
+
+
+Open http://127.0.0.1:8080/debug?ws=127.0.0.1:8080&port=5858 in the Chrome browser. You may have to click pause if starting with debug-brk to see the entry line
+
+
+npm install selenium-webdriver
+
+npm install webdriverio
+
+## Quick Start
+
+### Main Process
+
+In Electron, the process that runs package.json’s main script is called the main process. The script that runs in the main process can display a GUI by creating web pages.
+
+The main process script is just like a normal Node.js script.
+
+### Renderer Process
+
+Since Electron uses Chromium for displaying web pages, Chromium’s multi-process architecture is also used. Each web page in Electron runs in its own process, which is called the renderer process.
+
+In normal browsers, web pages usually run in a sandboxed environment and are not allowed access to native resources. Electron users, however, have the power to use Node.js APIs in web pages allowing lower level operating system interactions.
+
+
+The renderer process is no different than a normal web page, except for the extra ability to use node modules.
+
+
+
+### Differences Between Main Process and Renderer Process
+
+
+The main process creates web pages by creating BrowserWindow instances. Each BrowserWindow instance runs the web page in its own renderer process. When a BrowserWindow instance is destroyed, the corresponding renderer process is also terminated.
+
+The main process manages all web pages and their corresponding renderer processes. Each renderer process is isolated and only cares about the web page running in it.
+
+In web pages, calling native GUI related APIs is not allowed because managing native GUI resources in web pages is very dangerous and it is easy to leak resources. If you want to perform GUI operations in a web page, the renderer process of the web page must communicate with the main process to request that the main process perform those operations.
+
+In Electron, we have several ways to communicate between the main process and renderer processes. Like ipcRenderer and ipcMain modules for sending messages, and the remote module for RPC style communication. There is also an FAQ entry on how to share data between web pages.
+
+## Desktop Environment Integration
+
+## Process
+
+process
+.type
+.versions['electron']
+.versions['chrome']
+.resourcesPath
+.mas
+.noAsar
+.hang
+.setFdLimit(maxDescriptors)
+
+## Supported Chrome command line switches
+
+## Environment variables
+
+Some behaviors of Electron are controlled by environment variables, because they are initialized earlier than command line and the app’s code.
+
+ELECTRON_RUN_AS_NODE
+ELECTRON_ENABLE_LOGGIN
+ELECTRON_ENABLE_STACK_DUMPING
+
+Events
+:loaded
+
+## The <webview> tag
+
+## The window.open function
+
+## Modules for the Main Process
+
+
+* app
+
+	The app module is responsible for controlling the application’s lifecycle.
+
+* autoUpdater
+
+	his module provides an interface for the Squirrel auto-updater framework.
+
+* BrowserWindow
+
+```
+		The BrowserWindow class gives you the ability to create a browser window. For example:
+
+		// In the main process.
+		const BrowserWindow = require('electron').BrowserWindow;
+
+		// Or in the renderer process.
+		const BrowserWindow = require('electron').remote.BrowserWindow;
+
+		var win = new BrowserWindow({ width: 800, height: 600, show: false });
+		win.on('closed', function() {
+		  win = null;
+		});
+
+		win.loadURL('https://github.com');
+		win.show();
+
+* contentTracing
+* dialog
+* globalShortcut
+* ipcMain
+* Menu
+* MenuItem
+* powerMonitor
+* powerSaveBlocker
+* protocol
+* session
+* webContents
+* Tray
+
+## Modules for the Renderer Process(Web Page)
+
+* desktopCapture
+* ipcRender
+* remote
+* webFrame
+
+## Modules for Both Processes
+
+* clipboard
+* crashReporter
+* nativeImage
+* screen
+* shell
+
+## Development
+
+
+
+
+
+
+

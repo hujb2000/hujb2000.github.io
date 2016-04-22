@@ -185,3 +185,10 @@ Coursera hujb2000@163.com/coursera.org
 
 Yann|廖颜华  2015-12-2 16:54:19
 edX  ｈujb2000@163.com/courses.edx.org
+
+#  数人云
+[数人云](https://www.shurenyun.com)
+
+安装
+sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dataman-Cloud/agent-installer/master/install-agent.sh)" -s 295356f241404e37b42411f7afe44b80
+
