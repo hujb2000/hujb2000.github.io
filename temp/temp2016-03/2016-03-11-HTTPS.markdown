@@ -11,6 +11,7 @@ categories: allen.hu update
 /usr/local/nginx/sbin/nginx  1.8.1 没有启用SSL
 /sbin/nginx 1.21.0  启用SSL, 修改/etc/nginx/下的配置
 
+/usr/sbin/nginx -c /etc/nginx/conf/nginx.conf
 
 Config:
 

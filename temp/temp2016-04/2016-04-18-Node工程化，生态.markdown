@@ -1,0 +1,90 @@
+---
+---
+layout: post
+title:  "Node.js工程化与生态"
+date:   2016-04-14 13:35:30
+categories: allen.hu update
+---
+
+
+
+# 应用性能
+
+## [alinode](http://alinode.aliyun.com/)
+
+我们提供与 Node.js LTS 版本完全兼容的运行时，只要通过它启动 Node.js 应用， 并部署配套的 AgentX，就能够在云端全面监控并分析线上应用从系统到内核的状态。
+
+通过 alinode 云平台遥控 AgentX，将应用状态上传到云端，并借助云平台上的一系列可视化及智能分析工具，开发者不需要将应用下线，即可快速找到问题来源。
+
+
+
+提供深入到堆、GC 等内核信息的在线监控
+根据监控信息，给出优化建议
+根据部署的 Node.js 版本，提供安全风险通知
+
+无需改动代码，无需切换到线下
+直接获取线上应用的堆快照、CPU Profile、GC Trace 等现场信息
+迅速分析并定位内存泄露、GC 异常等问题来源
+
+
+alinode 整套服务由 alinode 运行时、AgentX、命令集、服务平台四个部分组成，如需充分享受 alinode 整套解决方案带来的好处，需要您在自己的服务器上部署 AgentX、alinode 运行时和一组命令集。
+
+
+alinode运行环境功能亮点
+1、不需停机问题排查;
+2、精确到虚拟机级别的APM及监控功能;
+3、全兼容社区node/iojs,用户代码无需任何修改;
+4、在线调试功能,线上做heapdump分析内存泄露;
+5、线上产品可以做profiling分析性能瓶颈;
+6、在线调整v8参数,不需要重启应用,中断业务;
+7、agentx代码开源,用户可以确认不会被收集额外信息;
+8、阿里云强大的技术支持.
+
+按照我们新的LTS计划，Node.js v4 Argon将继续被支持30个月，直到2018年4月。随着新的主要版本（v6）的在2016年4月的发布，这个新的Node.js版本(v5)将仅被支持8个月。Node.js v6将最终成为新的LTS版本，有着和v4一样的支持时间。通过这种方式，我们每6个月就有一个新的稳定版本，
+
+如果你对我们的LTS计划较陌生，请阅读以了解它将怎样工作，以令你可以做出该使用哪个版本的正确决定。
+
+## [NENPM](http://npm.hz.netease.com/)
+
+## [Heimdallr](https://github.com/nodeeasy/Heimdallr)
+
+## [Countly](https://github.com/countly/countly-server)
+
+Countly is looking for full stack node.js developers to work on its core platform.
+
+[Plugins](https://count.ly/plugins/)
+
+Countly is an innovative, real-time, open source mobile & web analytics, push notifications and crash reporting platform powering nearly 3000 mobile applications
+
+[各有个版本比较](https://count.ly/compare/)
+
+### [Installation](http://resources.count.ly/docs/installing-countly-server)
+
+wget -qO- http://c.ly/install | bash
+
+Scripts:
+
+		apt-get -v &> /dev/null && apt-get install -y zip </dev/null || yum install -y unzip;
+		if [ "$1" = "dev" ]; then
+		    wget -nv https://github.com/Countly/countly-server/archive/master.zip -O ./countly.zip ;
+		    unzip countly.zip ;
+		    mv countly-server-master countly
+		else
+		    LATEST=$(wget -qO- https://api.github.com/repos/countly/countly-server/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4) ;
+		    wget -nv $LATEST -O ./countly.zip ;
+		    unzip countly.zip ;
+		fi
+
+		YUM_CMD=$(which yum)
+		APT_GET_CMD=$(which apt-get)
+		if [[ ! -z $APT_GET_CMD ]]; then
+		    bash countly/bin/countly.install.sh
+		elif [[ ! -z $YUM_CMD ]]; then
+		    bash countly/bin/countly.install_rhel.sh
+		else
+		    echo "error can't install Countly"
+		    exit 1;
+		fi
+
+docker run -d -P -v /home/hjb/mongo_test/countlydb:/var/lib/mongodb countly/countly-server
+
