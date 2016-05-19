@@ -22,3 +22,4 @@ filetype::ppt doc, pdf
 7. 善用星号
 8. 学分分辨搜素结果的质量
 
+作者介绍：Chris Richardson，是世界著名的软件大师，经典技术著作《POJOS IN ACTION》一书的作者，也是 cloudfoundry.com 最初的创始人，Chris Richardson 与 Martin Fowler、Sam Newman、Adrian Cockcroft 等并称为世界十大软件架构师。

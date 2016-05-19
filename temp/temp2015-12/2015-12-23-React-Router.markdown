@@ -630,4 +630,8 @@ In addition to children, route components receive the following props:
    return dataMap[category].itemsMap[item]
  }
 
+## React Router Testing With Jest
+
+[Jest](https://github.com/reactjs/react-router/blob/master/docs/guides/testing.md)
+
 

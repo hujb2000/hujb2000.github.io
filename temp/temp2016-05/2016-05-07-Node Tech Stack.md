@@ -124,6 +124,45 @@ url-loader
 	};
 	require("file?name=[path][name].[ext]?[hash]!./dir/file.png")
 
-* 对文件做hash
+* 对文件做 revision
 
-对文件做 revision
+```
+	output: { chunkFilename: "[chunkhash].bundle.js" }
+	plugins: [
+	　function() {
+	　　this.plugin("done", function(stats) {
+	　　　require("fs").writeFileSync(
+	　　　　path.join(__dirname, "...", "stats.json"),
+	　　　　JSON.stringify(stats.toJson()));
+	　　});
+	　}
+	]
+
+* 上线
+
+1. 压缩JavaScript
+
+	plugins: [
+	　 new webpack.optimize.MinChunkSizePlugin(minSize)
+	]
+
+2. 压缩react
+
+	new webpack.DefinePlugin({
+	　"process.env": {
+	　　NODE_ENV: JSON.stringify("production")
+	　}
+	})
+
+3. CDN
+
+替换 CDN 这个工作, Webpack 也内置了, 设置 output.publicPath 即可
+
+## webpack-core
+
+it mainly encapsulate
+1. the loader stuff
+2. SourceMap stuff
+
+## css-loader
+
