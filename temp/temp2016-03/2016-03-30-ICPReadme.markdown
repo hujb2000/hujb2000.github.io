@@ -457,7 +457,7 @@ http://cloud.netease.com/vpn  获取VPN密码,每次登陆重新获取一次
 
 73. finaly 的return 为准
 
-74. prod config http://apollodev.nos.netease.com/1457513596557
+74. prod config
 
 75. hz3/hz15 can enter
 
