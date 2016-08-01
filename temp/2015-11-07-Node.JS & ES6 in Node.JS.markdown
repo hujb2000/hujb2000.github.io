@@ -78,6 +78,70 @@ All ECMAScript 2015(ES6) features are split into three groups for shipping, stag
 # Node.JS 5.1.0 Api Documentation
 
 
+## QA
+
+* 关于严格模式
+
+类和模块的内部，默认就是严格模式，所以不需要使用use strict指定运行模式。只要你的代码写在类或模块之中，就只有严格模式可用。
+考虑到未来所有的代码，其实都是运行在模块之中，所以ES6实际上把整个语言升级到了严格模式。
+
+* 关于子类
+
+任何一个子类都有constructor方法。
+
+constructor(...args) {
+  super(...args);
+}
+
+* 类的prototype属性和__proto__属性
+
+大多数浏览器的ES5实现之中，每一个对象都有__proto__属性，指向对应的构造函数的prototype属性。Class作为构造函数的语法糖，同时有prototype属性和__proto__属性，因此同时存在两条继承链。
+
+（1）子类的__proto__属性，表示构造函数的继承，总是指向父类。
+
+（2）子类prototype属性的__proto__属性，表示方法的继承，总是指向父类的prototype属性。
+```
+class A {
+}
+
+class B {
+}
+
+// B的实例继承A的实例
+Object.setPrototypeOf(B.prototype, A.prototype);
+
+// B继承A的静态属性
+Object.setPrototypeOf(B, A);
+《对象的扩展》一章给出过Object.setPrototypeOf方法的实现。
+
+Object.setPrototypeOf = function (obj, proto) {
+  obj.__proto__ = proto;
+  return obj;
+}
+
+B.prototype = new A();
+// 等同于
+B.prototype.__proto__ = A.prototype;
+
+```
+
+* 原生构造函数的继承
+
+
+
+Boolean()
+Number()
+String()
+Array()
+Date()
+Function()
+RegExp()
+Error()
+Object()
+
+ES6可以自定义原生数据结构（比如Array、String等）的子类，这是ES5无法做到的。
+
+
 
 
 
